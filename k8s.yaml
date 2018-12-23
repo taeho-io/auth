@@ -42,12 +42,6 @@ spec:
                 secretKeyRef:
                   name: auth-envs
                   key: AUTH_TOKEN_ISSUER
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 5
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
