@@ -1,0 +1,24 @@
+package handler
+
+import (
+	"github.com/grpc/grpc-go/status"
+	"github.com/taeho-io/auth"
+	"github.com/taeho-io/auth/pkg/token"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
+)
+
+type ParseHandlerFunc func(context.Context, *auth.ParseRequest) (*auth.ParseResponse, error)
+
+func Parse(tkn token.Token) ParseHandlerFunc {
+	return func(ctx context.Context, req *auth.ParseRequest) (*auth.ParseResponse, error) {
+		claims, err := tkn.ParseToken(req.AccessToken)
+		if err != nil {
+			return nil, status.Error(codes.Unauthenticated, "Unauthorized")
+		}
+
+		return &auth.ParseResponse{
+			UserId: claims.UserID,
+		}, nil
+	}
+}

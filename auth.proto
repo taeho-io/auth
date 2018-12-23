@@ -1,0 +1,48 @@
+syntax = "proto3";
+option go_package = "github.com/taeho-io/auth";
+package auth;
+
+service Auth {
+  rpc Auth (AuthRequest) returns (AuthResponse) {}
+  rpc Validate (ValidateRequest) returns (ValidateResponse) {}
+  rpc Refresh (RefreshRequest) returns (RefreshResponse) {}
+  rpc Parse (ParseRequest) returns (ParseResponse) {}
+}
+
+message AuthRequest {
+  string user_id = 1;
+}
+
+message AuthResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  int64 expires_in = 3;
+  string user_id = 4;
+}
+
+message ValidateRequest {
+  string access_token = 1;
+}
+
+message ValidateResponse {
+  bool is_valid = 1;
+}
+
+message RefreshRequest {
+  string refresh_token = 1;
+}
+
+message RefreshResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  int64 expires_in = 3;
+  string user_id = 4;
+}
+
+message ParseRequest {
+  string access_token = 1;
+}
+
+message ParseResponse {
+  string user_id = 1;
+}
