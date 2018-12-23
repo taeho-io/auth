@@ -79,6 +79,10 @@ workflows:
           requires:
             - test
       - approve-to-deploy:
+          filters:
+            branches:
+              only:
+                - master
           type: approval
           requires:
             - push
