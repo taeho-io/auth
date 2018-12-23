@@ -35,12 +35,36 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      - run: echo ${GCLOUD_AUTH} > ${HOME}/gcp-key.json
-      - run: docker build --rm=false -t us.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:$CIRCLE_SHA1 .
-      - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-      - run: gcloud --quiet config set project ${GCP_PROJECT}
-      - run: gcloud auth configure-docker
-      - run: docker push us.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:$CIRCLE_SHA1
+      - run:
+          name: Setup Google Cloud SDK
+          command: |
+            echo ${GCLOUD_AUTH} > ${HOME}/gcp-key.json
+            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+            gcloud --quiet config set project ${GCP_PROJECT}
+            gcloud auth configure-docker
+      - run:
+          name: Build docker image
+          command: docker build --rm=false -t us.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:$CIRCLE_SHA1 .
+      - run:
+          name: Push docker image
+          command: docker push us.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:$CIRCLE_SHA1
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - run:
+          name: Setup Google Cloud SDK
+          command: |
+            echo ${GCLOUD_AUTH} > ${HOME}/gcp-key.json
+            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+            gcloud --quiet config set project ${GCP_PROJECT}
+            gcloud auth configure-docker
+      - run:
+          name: Patch envs on k8s.yaml
+          command: envsubst < ${HOME}/k8s.yaml > ${HOME}/patched_k8s.yml
+      - run:
+
 workflows:
   version: 2
   test-and-push:

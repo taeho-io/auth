@@ -1,0 +1,84 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: auth
+  labels:
+    app: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: us.gcr.io/taeho-io-220708/auth:${CIRCLE_SHA1}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: AUTH_SIGNING_METHOD
+              valueFrom:
+                secretKeyRef:
+                  name: auth-envs
+                  key: AUTH_SIGNING_METHOD
+            - name: AUTH_SIGNING_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-envs
+                  key: AUTH_SIGNING_KEY
+            - name: AUTH_TOKEN_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: auth-envs
+                  key: AUTH_TOKEN_ISSUER
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: auth-hpa
+  labels:
+    app: auth
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: auth
+    apiVersion: apps/v1beta1
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+  labels:
+    app: auth
+spec:
+  ports:
+    - port: 80
+      name: grpc
+  selector:
+    app: auth
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: auth
+spec:
+  hosts:
+    - auth.taeho.io
+  gateways:
+    - public-gateway
+  http:
+    - route:
+        - destination:
+            host: auth
+            port:
+              number: 80
+---
