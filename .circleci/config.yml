@@ -60,16 +60,28 @@ jobs:
             gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
             gcloud --quiet config set project ${GCP_PROJECT}
             gcloud auth configure-docker
+            gcloud container clusters get-credentials taeho-cluster --zone us-west1-a --project ${GCP_PROJECT}
       - run:
-          name: Patch envs on k8s.yaml
-          command: envsubst < ${HOME}/k8s.yaml > ${HOME}/patched_k8s.yml
+          name: Install dependencies
+          command: apt-get -y install gettext-base
       - run:
-
+          name: Patch environment variables on k8s.yaml
+          command: envsubst < k8s.yaml > patched_k8s.yaml
+      - run:
+          name: Apply to k8s
+          command: kubectl apply -n taeho -f patched_k8s.yaml
 workflows:
   version: 2
-  test-and-push:
+  test-push-deploy:
     jobs:
       - test
       - push:
           requires:
             - test
+      - approve-to-deploy:
+          type: approval
+          requires:
+            - push
+      - deploy:
+          requires:
+            - approve-to-deploy
