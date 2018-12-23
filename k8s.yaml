@@ -6,6 +6,11 @@ metadata:
   labels:
     app: auth
 spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 0
   replicas: 1
   selector:
     matchLabels:
