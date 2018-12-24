@@ -18,7 +18,7 @@ type AuthServer struct {
 	tkn token.Token
 }
 
-func NewAuthServer(cfg Config) *AuthServer {
+func New(cfg Config) *AuthServer {
 	tokenCfg := token.NewConfig(
 		cfg.Settings().SigningMethod,
 		cfg.Settings().SigningKey,
@@ -34,8 +34,8 @@ func NewAuthServer(cfg Config) *AuthServer {
 	}
 }
 
-func MockAuthServer() *AuthServer {
-	return NewAuthServer(MockConfig())
+func Mock() *AuthServer {
+	return New(MockConfig())
 }
 
 func (s *AuthServer) Config() Config {
@@ -73,7 +73,7 @@ func Serve() error {
 	}
 
 	grpcServer := grpc.NewServer()
-	authServer := NewAuthServer(NewConfig(NewSettings()))
+	authServer := New(NewConfig(NewSettings()))
 	auth.RegisterAuthServer(grpcServer, authServer)
 	reflection.Register(grpcServer)
 	return grpcServer.Serve(lis)
