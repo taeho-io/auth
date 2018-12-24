@@ -35,7 +35,7 @@ func TestNewAccessToken_InvalidSigningMethod(t *testing.T) {
 		time.Hour*24*365,
 	)
 	claims := Claims{
-		UserID: "test_user_id",
+		UserID: 1234,
 	}
 	tokenSvc := New(cfg)
 	token, err := tokenSvc.NewAccessToken(claims)
@@ -45,7 +45,7 @@ func TestNewAccessToken_InvalidSigningMethod(t *testing.T) {
 
 func TestNewAccessToken(t *testing.T) {
 	claims := Claims{
-		UserID: "test_user_id",
+		UserID: 1234,
 	}
 	tokenSvc := Mock()
 	token, err := tokenSvc.NewAccessToken(claims)
@@ -62,7 +62,7 @@ func TestNewRefreshToken_InvalidSigningMethod(t *testing.T) {
 		time.Hour*24*365,
 	)
 	claims := Claims{
-		UserID: "test_user_id",
+		UserID: 1234,
 	}
 	tokenSvc := New(cfg)
 	token, err := tokenSvc.NewRefreshToken(claims)
@@ -72,7 +72,7 @@ func TestNewRefreshToken_InvalidSigningMethod(t *testing.T) {
 
 func TestNewRefreshToken(t *testing.T) {
 	claims := Claims{
-		UserID: "test_user_id",
+		UserID: 1234,
 	}
 	tokenSvc := Mock()
 	token, err := tokenSvc.NewRefreshToken(claims)
@@ -82,7 +82,7 @@ func TestNewRefreshToken(t *testing.T) {
 
 func TestValidateToken(t *testing.T) {
 	claims := Claims{
-		UserID: "test_user_id",
+		UserID: 1234,
 	}
 	tokenSvc := Mock()
 	token, _ := tokenSvc.NewAccessToken(claims)
@@ -102,7 +102,7 @@ func TestParseToken_SignedWithInvalidSigningMethod(t *testing.T) {
 
 func TestParseToken(t *testing.T) {
 	claims := Claims{
-		UserID: "test_user_id",
+		UserID: 1234,
 	}
 	tokenSvc := Mock()
 	token, _ := tokenSvc.NewAccessToken(claims)

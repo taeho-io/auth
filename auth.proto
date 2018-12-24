@@ -10,14 +10,14 @@ service Auth {
 }
 
 message AuthRequest {
-  string user_id = 1;
+  int64 user_id = 1;
 }
 
 message AuthResponse {
   string access_token = 1;
   string refresh_token = 2;
   int64 expires_in = 3;
-  string user_id = 4;
+  int64 user_id = 4;
 }
 
 message ValidateRequest {
@@ -36,7 +36,7 @@ message RefreshResponse {
   string access_token = 1;
   string refresh_token = 2;
   int64 expires_in = 3;
-  string user_id = 4;
+  int64 user_id = 4;
 }
 
 message ParseRequest {
@@ -44,5 +44,5 @@ message ParseRequest {
 }
 
 message ParseResponse {
-  string user_id = 1;
+  int64 user_id = 1;
 }

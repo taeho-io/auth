@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	testUserId                      = "test_user_id"
+	testUserId                      = int64(1234)
 	testAccessTokenExpiringDuration = time.Hour
 )
 
