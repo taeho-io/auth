@@ -13,7 +13,7 @@ WORKDIR /usr/share/zoneinfo
 RUN zip -r -0 /zoneinfo.zip .
 
 FROM scratch
-# the test program:
+# the application:
 COPY --from=golang /go/bin /app
 # the timezone data:
 ENV ZONEINFO /zoneinfo.zip
