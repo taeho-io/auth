@@ -14,7 +14,7 @@ func TestParseHandler(t *testing.T) {
 
 	tokenSvc := token.Mock()
 
-	accessToken, _ := tokenSvc.NewAccessToken(token.Claims{UserID: testUserId})
+	accessToken, _ := tokenSvc.NewAccessToken(token.Claims{UserID: 1234})
 	req := &auth.ParseRequest{
 		AccessToken: accessToken,
 	}
