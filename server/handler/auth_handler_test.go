@@ -45,7 +45,10 @@ func TestAuthHandler_NewAccessToken_Error(t *testing.T) {
 	defer ctrl.Finish()
 
 	tkn := mocks.NewMockToken(ctrl)
-	tkn.EXPECT().NewAccessToken(token.Claims{UserID: testUserId}).Return("", errors.New("failed"))
+	tkn.
+		EXPECT().
+		NewAccessToken(token.Claims{UserID: testUserId}).
+		Return("", errors.New("failed"))
 
 	_, err := Auth(testAccessTokenExpiringDuration, tkn)(ctx, req)
 	assert.NotNil(t, err)
@@ -61,8 +64,14 @@ func TestAuthHandler_NewRefreshToken_Error(t *testing.T) {
 	defer ctrl.Finish()
 
 	tkn := mocks.NewMockToken(ctrl)
-	tkn.EXPECT().NewAccessToken(token.Claims{UserID: testUserId}).Return("token", nil)
-	tkn.EXPECT().NewRefreshToken(token.Claims{UserID: testUserId}).Return("", errors.New("failed"))
+	tkn.
+		EXPECT().
+		NewAccessToken(token.Claims{UserID: testUserId}).
+		Return("token", nil)
+	tkn.
+		EXPECT().
+		NewRefreshToken(token.Claims{UserID: testUserId}).
+		Return("", errors.New("failed"))
 
 	_, err := Auth(testAccessTokenExpiringDuration, tkn)(ctx, req)
 	assert.NotNil(t, err)
