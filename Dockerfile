@@ -1,13 +1,11 @@
-FROM golang:alpine as golang
+FROM golang:1.11.4-alpine3.8 as golang
 RUN apk add curl git
-WORKDIR /go/src/github.com/taeho-io/auth
+WORKDIR /auth
 COPY . .
-RUN curl -L -s https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64 -o /go/bin/dep && chmod +x /go/bin/dep
-RUN dep ensure
-WORKDIR /go/src/github.com/taeho-io/auth/cmd
+WORKDIR /auth/cmd
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o /go/bin/auth
 
-FROM alpine:latest as alpine
+FROM alpine:3.8 as alpine
 RUN apk --no-cache add tzdata zip ca-certificates
 WORKDIR /usr/share/zoneinfo
 # -0 means no compression.  Needed because go's
