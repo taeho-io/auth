@@ -1,10 +1,11 @@
 package handler
 
 import (
-	"errors"
 	"testing"
 	"time"
 
+	"github.com/golang/mock/gomock"
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/auth/mocks"
@@ -40,9 +41,12 @@ func TestAuthHandler_NewAccessToken_Error(t *testing.T) {
 		UserId: testUserId,
 	}
 
-	tkn := new(mocks.Token)
-	tkn.On("NewAccessToken", token.Claims{UserID: testUserId}).
-		Return("", errors.New("failed"))
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	tkn := mocks.NewMockToken(ctrl)
+	tkn.EXPECT().NewAccessToken(token.Claims{UserID: testUserId}).Return("", errors.New("failed"))
+
 	_, err := Auth(testAccessTokenExpiringDuration, tkn)(ctx, req)
 	assert.NotNil(t, err)
 }
@@ -53,11 +57,13 @@ func TestAuthHandler_NewRefreshToken_Error(t *testing.T) {
 		UserId: testUserId,
 	}
 
-	tkn := new(mocks.Token)
-	tkn.On("NewAccessToken", token.Claims{UserID: testUserId}).
-		Return("token", nil)
-	tkn.On("NewRefreshToken", token.Claims{UserID: testUserId}).
-		Return("", errors.New("failed"))
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	tkn := mocks.NewMockToken(ctrl)
+	tkn.EXPECT().NewAccessToken(token.Claims{UserID: testUserId}).Return("token", nil)
+	tkn.EXPECT().NewRefreshToken(token.Claims{UserID: testUserId}).Return("", errors.New("failed"))
+
 	_, err := Auth(testAccessTokenExpiringDuration, tkn)(ctx, req)
 	assert.NotNil(t, err)
 }

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/auth/mocks"
@@ -45,11 +46,14 @@ func TestRefreshHandler_NewAccessToken_Error(t *testing.T) {
 	req := &auth.RefreshRequest{
 		RefreshToken: refreshToken,
 	}
-	tkn := new(mocks.Token)
-	tkn.On("ParseToken", refreshToken).
-		Return(token.Claims{UserID: testUserId}, nil)
-	tkn.On("NewAccessToken", token.Claims{UserID: testUserId}).
-		Return("", errors.New("failed"))
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	tkn := mocks.NewMockToken(ctrl)
+	tkn.EXPECT().ParseToken(refreshToken).Return(token.Claims{UserID: testUserId}, nil)
+	tkn.EXPECT().NewAccessToken(token.Claims{UserID: testUserId}).Return("", errors.New("failed"))
+
 	_, err := Refresh(testAccessTokenExpiringDuration, tkn)(ctx, req)
 	assert.NotNil(t, err)
 }
