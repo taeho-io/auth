@@ -1,11 +1,11 @@
 package handler
 
 import (
-	"github.com/grpc/grpc-go/status"
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/auth/pkg/token"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type ParseHandlerFunc func(context.Context, *auth.ParseRequest) (*auth.ParseResponse, error)
