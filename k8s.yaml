@@ -30,17 +30,17 @@ spec:
             - name: AUTH_SIGNING_METHOD
               valueFrom:
                 secretKeyRef:
-                  name: auth-envs
+                  name: taeho-envs
                   key: AUTH_SIGNING_METHOD
             - name: AUTH_SIGNING_KEY
               valueFrom:
                 secretKeyRef:
-                  name: auth-envs
+                  name: taeho-envs
                   key: AUTH_SIGNING_KEY
             - name: AUTH_TOKEN_ISSUER
               valueFrom:
                 secretKeyRef:
-                  name: auth-envs
+                  name: taeho-envs
                   key: AUTH_TOKEN_ISSUER
 ---
 apiVersion: autoscaling/v1
