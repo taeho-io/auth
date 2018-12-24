@@ -19,7 +19,7 @@ func GetAuthClient() AuthClient {
 		return Client
 	}
 
-	serviceURL := "auth"
+	serviceURL := "auth:80"
 
 	// We don't need to error here, as this creates a pool and connections
 	// will happen later
