@@ -64,6 +64,9 @@ jobs:
           name: Patch environment variables on k8s.yaml
           command: envsubst < k8s.yaml > patched_k8s.yaml
       - run:
+          name: Apply to k8s (dry-run)
+          command: kubectl apply -n taeho -f patched_k8s.yaml --dry-run
+      - run:
           name: Apply to k8s
           command: kubectl apply -n taeho -f patched_k8s.yaml
 workflows:
