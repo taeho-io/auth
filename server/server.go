@@ -8,6 +8,8 @@ import (
 	"github.com/taeho-io/auth/server/handler"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -73,8 +75,13 @@ func Serve() error {
 	}
 
 	grpcServer := grpc.NewServer()
+
+	healthServer := health.NewServer()
+	grpc_health_v1.RegisterHealthServer(grpcServer, healthServer)
+
 	authServer := New(NewConfig(NewSettings()))
 	auth.RegisterAuthServer(grpcServer, authServer)
+
 	reflection.Register(grpcServer)
 	return grpcServer.Serve(lis)
 }

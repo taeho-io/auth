@@ -1,4 +1,3 @@
----
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -42,7 +41,17 @@ spec:
                 secretKeyRef:
                   name: taeho-envs
                   key: AUTH_TOKEN_ISSUER
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:80"]
+            initialDelaySeconds: 3
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:80"]
+            initialDelaySeconds: 5
+
 ---
+
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -57,7 +66,9 @@ spec:
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -70,7 +81,9 @@ spec:
       name: grpc
   selector:
     app: auth
+
 ---
+
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -86,4 +99,3 @@ spec:
             host: auth
             port:
               number: 80
----
