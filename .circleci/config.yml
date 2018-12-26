@@ -1,30 +1,6 @@
 version: 2
 jobs:
-  test:
-    docker:
-      - image: circleci/golang:1.11.4
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            # golangci-lint
-            curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s v1.12.4
-            sudo cp ./bin/golangci-lint $GOPATH/bin
-            # protoc
-            curl -OL https://github.com/google/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip
-            unzip -o protoc-3.6.1-linux-x86_64.zip bin/protoc
-            sudo cp bin/protoc /bin/protoc
-      - run:
-          name: Run tests
-          command: make test
-      - run:
-          name: Lint
-          command: make lint
-      - run:
-          name: Build
-          command: make build
-  push:
+  build:
     docker:
       - image: google/cloud-sdk
     steps:
@@ -39,8 +15,8 @@ jobs:
             gcloud --quiet config set project ${GCP_PROJECT}
             gcloud auth configure-docker
       - run:
-          name: Build docker image
-          command: docker build --rm=false -t us.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:$CIRCLE_SHA1 .
+          name: Build docker image with tests
+          command: docker build --build-arg test=true -t us.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:$CIRCLE_SHA1 .
       - run:
           name: Push docker image
           command: docker push us.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:$CIRCLE_SHA1
@@ -71,20 +47,17 @@ jobs:
           command: kubectl apply -n taeho -f patched_k8s.yaml
 workflows:
   version: 2
-  test-push-deploy:
+  build-deploy:
     jobs:
-      - test
-      - push:
-          requires:
-            - test
-      - approve-to-deploy:
+      - build
+      - approve:
           filters:
             branches:
               only:
                 - master
           type: approval
           requires:
-            - push
+            - build
       - deploy:
           requires:
-            - approve-to-deploy
+            - approve

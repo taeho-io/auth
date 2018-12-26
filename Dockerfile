@@ -1,9 +1,14 @@
-FROM golang:1.11.4-alpine3.8 as golang
-RUN apk add curl git
+FROM golang:1.11.4 as golang
 WORKDIR /auth
 COPY . .
+RUN go mod download
 WORKDIR /auth/cmd
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o /go/bin/auth
+WORKDIR /auth
+ARG test
+RUN if [ "$test" = "true" ] ; then curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.12.4 ; fi
+RUN if [ "$test" = "true" ] ; then make lint ; fi
+RUN if [ "$test" = "true" ] ; then make test ; fi
 
 FROM alpine:3.8
 RUN GRPC_HEALTH_PROBE_VERSION=v0.2.0 && \
