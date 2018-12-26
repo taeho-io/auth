@@ -25,7 +25,7 @@ func getEnv(key, fallback string) string {
 
 func NewSettings() Settings {
 	return Settings{
-		SigningMethod:                getEnv("AUTH_SIGNING_METHOD", "HS512"),
+		SigningMethod:                getEnv("AUTH_SIGNING_METHOD", "RS512"),
 		SigningPEM:                   getEnv("AUTH_SIGNING_PEM", token.MockSigningPEM),
 		VerifyingPEM:                 getEnv("AUTH_VERIFYING_PEM", token.MockVerifyPEM),
 		TokenIssuer:                  getEnv("AUTH_TOKEN_ISSUER", "DEFAULT_AUTH_TOKEN_ISSUER"),
@@ -36,7 +36,7 @@ func NewSettings() Settings {
 
 func MockSettings() Settings {
 	return Settings{
-		SigningMethod:                "HS512",
+		SigningMethod:                "RS512",
 		SigningPEM:                   token.MockSigningPEM,
 		VerifyingPEM:                 token.MockVerifyPEM,
 		TokenIssuer:                  "MOCK_AUTH_TOKEN_ISSUER",
