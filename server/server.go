@@ -20,7 +20,7 @@ func Serve() error {
 	}
 
 	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
+	_, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	tcpMux := cmux.New(lis)
