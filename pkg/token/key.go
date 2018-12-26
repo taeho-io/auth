@@ -1,0 +1,43 @@
+package token
+
+const (
+	// openssl genrsa -out auth.rsa 2048
+	MockSigningPEM = `-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAu5nbbLHxK3L2wLRb/ec0Ddck2lLeAdjRJ9AWDV8ArnRKNHwx
+mPxrie0UKS6vIZCgBNtae6PY89ScVFKed45k2W1IXzloTcbZ7rwtfm1fM36wASHx
+vIw8vP8KXikWEhH1PDiJmJdW69gqESsCCNe6ucrDj6hwOcNI69rZ2ZVhBKIVUg1i
+4/3Dciz1fnohWtM9enhCE+ysbVUNdgL+ychPW4EqlmO4mwuKpadgLcWKkIuQAGtB
+h/F6/gk3Qn7Mls+bi5uDz5DUQaCOjYK4y0uH2oz1qen8qW6JPe8u2eX/CUJ6WlAl
+eJcRwljbZExh2ynV4JbzXcqbCjUwNkQsVLMNbQIDAQABAoIBAEerPq2myTjNIcF6
+5c35HuTOtXCGyfOwri7kixgunCcJnDOy4ovMmxTFMreM8zECfG9+kXG8pax5JAP+
+0DVie9qoqkZeux9DgYx37XVoOT+F/Z1hJ2XduXKGiKJyVdEvdR29h6t43acaHPAU
+GyHfsKE7+jwOoFkg5uHb6O/75mWLEnvrAt6MaKddeW1H1jYKwUi/hC/Tuc0rWKi0
+fD35WXAEGjpfg65/dgDhZQLrknTRBODu8PTg2VVdRf42ZV5nSVYkDBEbj+qE3reN
+tGMHhjl+YKXAdjzwIovMLQYtixzPkkuin5PnI3nQEEvZD1908wZzGD0yonycEmUy
+uYKS5G0CgYEA6tWavS2d9paR6Ohwyndwt6eAqntTQ/y+1GGusVf+/VK5rq2xRqQO
+CFXtZpLO4p0zDqyianmyYc4jSyTIcBgytHVIOb+m477mLxYxJxENQJO9gptGKAvz
+vE4xtjRdnTOSad4DjsrxequWt2lkVG1A6mRAZrdgMoW27qxuAWDfLqMCgYEAzIJs
+oIXNojjyeVHf9E+/k3A/g7nFBVTLSrJC2WXT1m6vWdB8uSE3rvMgQWawIZy/GCo+
+JA+bvmX4o/Go3mdQX0lQFjhy8TcgplxppkBk+hlgBxIv1vkXNzGppach2r16fsdx
+Sy7HkuMQ7qiIAg3SzwvXxkOibvzF1xripSWT5K8CgYBLvvh5esRP7INF3+u5ssr9
+wh6jXsId1OFsudFSTLLn3Q4dhNMAmRwZnjXD9yiaOeBlJFQDChv6pjYGH+gzF+sL
+ACV60xGutj2jBIJ4OmzO3pirDxCTDD/jBknMnplvgloAoeb94QIA8mXb5TfCb7cX
+o5yORSnXQgAefinBchCrBwKBgFakJss3BLBmeeuGEWBa7OnU00PGTz779oh1zzZ1
+GnMtP2LInh58gS/AVvj+PT5wPtFJDDyQ1EWsw9MJDabzlCxaTfCsB55D4bQ5UJUb
+kOwYFgPI47Wqn/hFNP82OHSIc74EVu4oKmsDgefqRHzCSH5pIQghHU7yDgscm8ql
+ieuHAoGBAMVGK0HUiil5y3aEuMgwVbXS7lPpSY8JgRt7g8RdIj5zgSCcBUUGQ6uX
+Peze4qtTAnu+bJw53+/4l2ugC0P+2/+PmnbBmrG5b7hsJ6r6ev3evndQtVwFKe6w
+uuniHaDMyiIdwgEstUo8zg5jwBSG5/t7k5eRzm+iekPOubfecTnO
+-----END RSA PRIVATE KEY-----`
+
+	// openssl rsa -in auth.rsa -pubout > auth.rsa.pub
+	MockVerifyPEM = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu5nbbLHxK3L2wLRb/ec0
+Ddck2lLeAdjRJ9AWDV8ArnRKNHwxmPxrie0UKS6vIZCgBNtae6PY89ScVFKed45k
+2W1IXzloTcbZ7rwtfm1fM36wASHxvIw8vP8KXikWEhH1PDiJmJdW69gqESsCCNe6
+ucrDj6hwOcNI69rZ2ZVhBKIVUg1i4/3Dciz1fnohWtM9enhCE+ysbVUNdgL+ychP
+W4EqlmO4mwuKpadgLcWKkIuQAGtBh/F6/gk3Qn7Mls+bi5uDz5DUQaCOjYK4y0uH
+2oz1qen8qW6JPe8u2eX/CUJ6WlAleJcRwljbZExh2ynV4JbzXcqbCjUwNkQsVLMN
+bQIDAQAB
+-----END PUBLIC KEY-----`
+)

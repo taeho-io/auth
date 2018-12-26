@@ -95,22 +95,22 @@ func (mr *MockAuthClientMockRecorder) Refresh(arg0, arg1 interface{}, arg2 ...in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockAuthClient)(nil).Refresh), varargs...)
 }
 
-// Validate mocks base method
-func (m *MockAuthClient) Validate(arg0 context.Context, arg1 *auth.ValidateRequest, arg2 ...grpc.CallOption) (*auth.ValidateResponse, error) {
+// Verify mocks base method
+func (m *MockAuthClient) Verify(arg0 context.Context, arg1 *auth.VerifyRequest, arg2 ...grpc.CallOption) (*auth.VerifyResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{arg0, arg1}
 	for _, a := range arg2 {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "Validate", varargs...)
-	ret0, _ := ret[0].(*auth.ValidateResponse)
+	ret := m.ctrl.Call(m, "Verify", varargs...)
+	ret0, _ := ret[0].(*auth.VerifyResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Validate indicates an expected call of Validate
-func (mr *MockAuthClientMockRecorder) Validate(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
+// Verify indicates an expected call of Verify
+func (mr *MockAuthClientMockRecorder) Verify(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{arg0, arg1}, arg2...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Validate", reflect.TypeOf((*MockAuthClient)(nil).Validate), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Verify", reflect.TypeOf((*MockAuthClient)(nil).Verify), varargs...)
 }

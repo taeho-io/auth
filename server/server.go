@@ -20,24 +20,29 @@ type AuthServer struct {
 	tkn token.Token
 }
 
-func New(cfg Config) *AuthServer {
+func New(cfg Config) (*AuthServer, error) {
 	tokenCfg := token.NewConfig(
 		cfg.Settings().SigningMethod,
-		cfg.Settings().SigningKey,
+		cfg.Settings().SigningPEM,
+		cfg.Settings().VerifyingPEM,
 		cfg.Settings().TokenIssuer,
 		cfg.Settings().AccessTokenExpiringDuration,
 		cfg.Settings().RefreshTokenExpiringDuration,
 	)
-	tkn := token.New(tokenCfg)
+	tkn, err := token.New(tokenCfg)
+	if err != nil {
+		return nil, err
+	}
 
 	return &AuthServer{
 		cfg: cfg,
 		tkn: tkn,
-	}
+	}, nil
 }
 
 func Mock() *AuthServer {
-	return New(MockConfig())
+	s, _ := New(MockConfig())
+	return s
 }
 
 func (s *AuthServer) Config() Config {
@@ -56,8 +61,8 @@ func (s *AuthServer) Auth(ctx context.Context, req *auth.AuthRequest) (*auth.Aut
 	return handler.Auth(s.Config().Settings().AccessTokenExpiringDuration, s.Token())(ctx, req)
 }
 
-func (s *AuthServer) Validate(ctx context.Context, req *auth.ValidateRequest) (*auth.ValidateResponse, error) {
-	return handler.Validate(s.Token())(ctx, req)
+func (s *AuthServer) Verify(ctx context.Context, req *auth.VerifyRequest) (*auth.VerifyResponse, error) {
+	return handler.Verify(s.Token())(ctx, req)
 }
 
 func (s *AuthServer) Refresh(ctx context.Context, req *auth.RefreshRequest) (*auth.RefreshResponse, error) {
@@ -79,7 +84,10 @@ func Serve() error {
 	healthServer := health.NewServer()
 	grpc_health_v1.RegisterHealthServer(grpcServer, healthServer)
 
-	authServer := New(NewConfig(NewSettings()))
+	authServer, err := New(NewConfig(NewSettings()))
+	if err != nil {
+		return err
+	}
 	auth.RegisterAuthServer(grpcServer, authServer)
 
 	reflection.Register(grpcServer)

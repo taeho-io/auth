@@ -8,15 +8,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestJWTSigningMethodWithHS256(t *testing.T) {
-	jwtSigningMethod, err := jwtSigningMethod("HS256")
-	assert.Equal(t, jwtSigningMethod, jwt.SigningMethodHS256)
+func TestJWTSigningMethod_RS256(t *testing.T) {
+	jwtSigningMethod, err := jwtSigningMethod("RS256")
+	assert.Equal(t, jwtSigningMethod, jwt.SigningMethodRS256)
 	assert.Nil(t, err)
 }
 
-func TestJWTSigningMethodWithHS512(t *testing.T) {
-	jwtSigningMethod, err := jwtSigningMethod("HS512")
-	assert.Equal(t, jwtSigningMethod, jwt.SigningMethodHS512)
+func TestJWTSigningMethod_RS512(t *testing.T) {
+	jwtSigningMethod, err := jwtSigningMethod("RS512")
+	assert.Equal(t, jwtSigningMethod, jwt.SigningMethodRS512)
 	assert.Nil(t, err)
 }
 
@@ -29,7 +29,8 @@ func TestInvalidJWTSigningMethod(t *testing.T) {
 func TestNewAccessToken_InvalidSigningMethod(t *testing.T) {
 	cfg := NewConfig(
 		"invalid",
-		"MOCK_SIGNING_KEY",
+		MockSigningPEM,
+		MockVerifyPEM,
 		"MOCK_TOKEN_ISSUER",
 		time.Hour,
 		time.Hour*24*365,
@@ -37,7 +38,8 @@ func TestNewAccessToken_InvalidSigningMethod(t *testing.T) {
 	claims := Claims{
 		UserID: 1234,
 	}
-	tokenSvc := New(cfg)
+	tokenSvc, err := New(cfg)
+	assert.Nil(t, err)
 	token, err := tokenSvc.NewAccessToken(claims)
 	assert.NotNil(t, err)
 	assert.Empty(t, token, "")
@@ -56,7 +58,8 @@ func TestNewAccessToken(t *testing.T) {
 func TestNewRefreshToken_InvalidSigningMethod(t *testing.T) {
 	cfg := NewConfig(
 		"invalid",
-		"MOCK_SIGNING_KEY",
+		MockSigningPEM,
+		MockVerifyPEM,
 		"MOCK_TOKEN_ISSUER",
 		time.Hour,
 		time.Hour*24*365,
@@ -64,7 +67,8 @@ func TestNewRefreshToken_InvalidSigningMethod(t *testing.T) {
 	claims := Claims{
 		UserID: 1234,
 	}
-	tokenSvc := New(cfg)
+	tokenSvc, err := New(cfg)
+	assert.Nil(t, err)
 	token, err := tokenSvc.NewRefreshToken(claims)
 	assert.NotNil(t, err)
 	assert.Empty(t, token, "")
@@ -80,23 +84,22 @@ func TestNewRefreshToken(t *testing.T) {
 	assert.NotNil(t, token)
 }
 
-func TestValidateToken(t *testing.T) {
+func TestVerifyToken(t *testing.T) {
 	claims := Claims{
 		UserID: 1234,
 	}
 	tokenSvc := Mock()
 	token, _ := tokenSvc.NewAccessToken(claims)
-	err := tokenSvc.ValidateToken(token)
+	err := tokenSvc.VerifyToken(token)
 	assert.Nil(t, err)
 }
 
 func TestParseToken_SignedWithInvalidSigningMethod(t *testing.T) {
-	rs256Token := "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4" +
-		"gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.TCYt5XsITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRo" +
-		"Psnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUcX16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb7" +
-		"8cPN25DGlcTwLtjPAYuNzVBAh4vGHSrQyHUdBBPM"
+	hs256Token := "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NDU3NjMxNTQsImp0aSI6ImJnaDZtZ25r" +
+		"a2k2OWtqOGY2OHFnIiwiaWF0IjoxNTQ1NzU5NTU0LCJpc3MiOiJhdXRoLnRhZWhvLmlvIiwidXNlcl9pZCI6MTIzNH0" +
+		".JnqyHGQ2ax1dQJxjAX8qagkG8wZZf5V0U4UN8MM_PhVHHcyyfH9e1UJDJfhxj2VZT1MklvgXbR_7I6B2q4SIKg"
 	tokenSvc := Mock()
-	_, err := tokenSvc.ParseToken(rs256Token)
+	_, err := tokenSvc.ParseToken(hs256Token)
 	assert.NotNil(t, err)
 }
 

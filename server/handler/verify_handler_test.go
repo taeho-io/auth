@@ -9,30 +9,30 @@ import (
 	"golang.org/x/net/context"
 )
 
-func TestValidateHandler(t *testing.T) {
+func TestVerifyHandler(t *testing.T) {
 	ctx := context.Background()
 
 	tokenSvc := token.Mock()
 
 	accessToken, _ := tokenSvc.NewAccessToken(token.Claims{UserID: testUserId})
-	req := &auth.ValidateRequest{
+	req := &auth.VerifyRequest{
 		AccessToken: accessToken,
 	}
-	res, err := Validate(tokenSvc)(ctx, req)
+	res, err := Verify(tokenSvc)(ctx, req)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 	assert.Equal(t, res.IsValid, true)
 }
 
-func TestValidateHandler_Invalid(t *testing.T) {
+func TestVerifyHandler_Invalid(t *testing.T) {
 	ctx := context.Background()
 
 	tokenSvc := token.Mock()
 
-	req := &auth.ValidateRequest{
+	req := &auth.VerifyRequest{
 		AccessToken: "invalid",
 	}
-	res, err := Validate(tokenSvc)(ctx, req)
+	res, err := Verify(tokenSvc)(ctx, req)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 	assert.Equal(t, res.IsValid, false)
