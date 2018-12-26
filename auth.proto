@@ -4,7 +4,7 @@ package auth;
 
 service Auth {
   rpc Auth (AuthRequest) returns (AuthResponse) {}
-  rpc Validate (ValidateRequest) returns (ValidateResponse) {}
+  rpc Verify (VerifyRequest) returns (VerifyResponse) {}
   rpc Refresh (RefreshRequest) returns (RefreshResponse) {}
   rpc Parse (ParseRequest) returns (ParseResponse) {}
 }
@@ -20,11 +20,11 @@ message AuthResponse {
   int64 user_id = 4;
 }
 
-message ValidateRequest {
+message VerifyRequest {
   string access_token = 1;
 }
 
-message ValidateResponse {
+message VerifyResponse {
   bool is_valid = 1;
 }
 

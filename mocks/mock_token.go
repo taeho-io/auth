@@ -78,16 +78,16 @@ func (mr *MockTokenMockRecorder) ParseToken(arg0 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ParseToken", reflect.TypeOf((*MockToken)(nil).ParseToken), arg0)
 }
 
-// ValidateToken mocks base method
-func (m *MockToken) ValidateToken(arg0 string) error {
+// VerifyToken mocks base method
+func (m *MockToken) VerifyToken(arg0 string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ValidateToken", arg0)
+	ret := m.ctrl.Call(m, "VerifyToken", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// ValidateToken indicates an expected call of ValidateToken
-func (mr *MockTokenMockRecorder) ValidateToken(arg0 interface{}) *gomock.Call {
+// VerifyToken indicates an expected call of VerifyToken
+func (mr *MockTokenMockRecorder) VerifyToken(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateToken", reflect.TypeOf((*MockToken)(nil).ValidateToken), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VerifyToken", reflect.TypeOf((*MockToken)(nil).VerifyToken), arg0)
 }
