@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Starting Auth gRPC server...")
+	fmt.Println("Starting Auth gRPC/HTTP server...")
 	err := server.Serve()
 	fmt.Println(err)
 }
