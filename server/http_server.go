@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/lestrrat-go/jwx/jwk"
 )
 
@@ -15,9 +14,7 @@ type JWKS struct {
 func NewHttpServer(cfg Config) (*http.Server, error) {
 	router := http.NewServeMux()
 	router.HandleFunc("/jwks", func(w http.ResponseWriter, req *http.Request) {
-		publicKey, _ := jwt.ParseRSAPublicKeyFromPEM([]byte(cfg.Settings().VerifyingPEM))
-
-		key, _ := jwk.New(publicKey)
+		key, _ := jwk.New(cfg.VerifyingKey())
 		_ = key.Set("alg", cfg.Settings().SigningMethod)
 		_ = key.Set("use", "sig")
 
