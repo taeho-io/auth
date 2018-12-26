@@ -45,3 +45,11 @@ func MockConfig() Config {
 func (c *DefaultConfig) Settings() Settings {
 	return c.settings
 }
+
+func (c *DefaultConfig) SigningKey() *rsa.PrivateKey {
+	return c.signingKey
+}
+
+func (c *DefaultConfig) VerifyingKey() *rsa.PublicKey {
+	return c.verifyingKey
+}

@@ -22,7 +22,7 @@ func NewHttpServer(cfg Config) (*http.Server, error) {
 	})
 
 	httpServer := &http.Server{
-		Addr:    ":80",
+		Addr:    ":81",
 		Handler: router,
 	}
 	return httpServer, nil

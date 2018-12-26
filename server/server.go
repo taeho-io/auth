@@ -3,9 +3,7 @@ package server
 import (
 	"log"
 	"net"
-
-	"github.com/soheilhy/cmux"
-	"golang.org/x/net/context"
+	"sync"
 )
 
 func Serve() error {
@@ -14,37 +12,43 @@ func Serve() error {
 		return err
 	}
 
-	lis, err := net.Listen("tcp", "0.0.0.0:80")
+	grpcLis, err := net.Listen("tcp", ":80")
+	if err != nil {
+		return err
+	}
+	grpcServer, err := NewGRPCServer(cfg)
 	if err != nil {
 		return err
 	}
 
-	ctx := context.Background()
-	_, cancel := context.WithCancel(ctx)
-	defer cancel()
+	httpLis, err := net.Listen("tcp", ":81")
+	if err != nil {
+		return err
+	}
+	httpServer, err := NewHttpServer(cfg)
+	if err != nil {
+		return err
+	}
 
-	tcpMux := cmux.New(lis)
-	grpcL := tcpMux.MatchWithWriters(cmux.HTTP2MatchHeaderFieldPrefixSendSettings(
-		"content-type", "application/grpc"))
-	httpL := tcpMux.Match(cmux.HTTP1Fast())
+	var wg sync.WaitGroup
+	wg.Add(1) // 1 is correct since we may want to exit when either grpc or http server is gone.
+
 	go func() {
-		grpcServer, err := NewGRPCServer(cfg)
-		if err != nil {
-			log.Fatal("Unable to initialize gRPC server")
-		}
-		if err := grpcServer.Serve(grpcL); err != nil {
+		defer wg.Done()
+
+		if err := grpcServer.Serve(grpcLis); err != nil {
 			log.Fatal("Unable to start gRPC server")
 		}
 	}()
 	go func() {
-		httpServer, err := NewHttpServer(cfg)
-		if err != nil {
-			log.Fatal("Unable to initialize HTTP server")
-		}
-		if err := httpServer.Serve(httpL); err != nil {
+		defer wg.Done()
+
+		if err := httpServer.Serve(httpLis); err != nil {
 			log.Fatal("Unable to start HTTP server")
 		}
 	}()
 
-	return tcpMux.Serve()
+	wg.Wait()
+
+	return nil
 }
