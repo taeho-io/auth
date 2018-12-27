@@ -32,11 +32,16 @@ spec:
                 secretKeyRef:
                   name: taeho-envs
                   key: AUTH_SIGNING_METHOD
-            - name: AUTH_SIGNING_KEY
+            - name: AUTH_SIGNING_PEM
               valueFrom:
                 secretKeyRef:
                   name: taeho-envs
-                  key: AUTH_SIGNING_KEY
+                  key: AUTH_SIGNING_PEM
+            - name: AUTH_VERIFYING_PEM
+              valueFrom:
+                secretKeyRef:
+                  name: taeho-envs
+                  key: AUTH_VERIFYING_PEM
             - name: AUTH_TOKEN_ISSUER
               valueFrom:
                 secretKeyRef:

@@ -21,19 +21,19 @@ type DefaultConfig struct {
 }
 
 func NewConfig(settings Settings) (Config, error) {
-	privateKey, err := jwt.ParseRSAPrivateKeyFromPEM([]byte(settings.SigningPEM))
+	signingKey, err := jwt.ParseRSAPrivateKeyFromPEM([]byte(settings.SigningPEM))
 	if err != nil {
 		return nil, err
 	}
-	publicKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(settings.VerifyingPEM))
+	verifyingKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(settings.VerifyingPEM))
 	if err != nil {
 		return nil, err
 	}
 
 	return &DefaultConfig{
 		settings:     settings,
-		signingKey:   privateKey,
-		verifyingKey: publicKey,
+		signingKey:   signingKey,
+		verifyingKey: verifyingKey,
 	}, nil
 }
 
