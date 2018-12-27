@@ -1,7 +1,9 @@
 package server
 
 import (
+	"crypto/md5"
 	"crypto/rsa"
+	"fmt"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -10,6 +12,7 @@ type Config interface {
 	Settings() Settings
 	SigningKey() *rsa.PrivateKey
 	VerifyingKey() *rsa.PublicKey
+	KeyID() string
 }
 
 type DefaultConfig struct {
@@ -18,6 +21,7 @@ type DefaultConfig struct {
 	settings     Settings
 	signingKey   *rsa.PrivateKey
 	verifyingKey *rsa.PublicKey
+	keyID        string
 }
 
 func NewConfig(settings Settings) (Config, error) {
@@ -34,6 +38,7 @@ func NewConfig(settings Settings) (Config, error) {
 		settings:     settings,
 		signingKey:   signingKey,
 		verifyingKey: verifyingKey,
+		keyID:        fmt.Sprintf("%x", md5.Sum([]byte(settings.VerifyingPEM))),
 	}, nil
 }
 
@@ -52,4 +57,8 @@ func (c *DefaultConfig) SigningKey() *rsa.PrivateKey {
 
 func (c *DefaultConfig) VerifyingKey() *rsa.PublicKey {
 	return c.verifyingKey
+}
+
+func (c *DefaultConfig) KeyID() string {
+	return c.keyID
 }
