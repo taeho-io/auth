@@ -11,9 +11,9 @@ jobs:
           name: Setup Google Cloud SDK
           command: |
             echo ${GCLOUD_AUTH} > ${HOME}/gcp-key.json
-            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+            gcloud --quiet auth activate-service-account --key-file ${HOME}/gcp-key.json
             gcloud --quiet config set project ${GCP_PROJECT}
-            gcloud auth configure-docker
+            gcloud --quiet auth configure-docker
       - run:
           name: Build docker image with tests
           command: docker build --build-arg test=true -t us.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:$CIRCLE_SHA1 .
