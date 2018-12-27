@@ -110,8 +110,3 @@ spec:
             host: auth
             port:
               number: 81
-    - route:
-        - destination:
-            host: auth
-            port:
-              number: 80
