@@ -14,6 +14,16 @@ jobs:
             gcloud --quiet auth activate-service-account --key-file ${HOME}/gcp-key.json
             gcloud --quiet config set project ${GCP_PROJECT}
             gcloud --quiet auth configure-docker
+            gcloud --quiet container clusters get-credentials taeho-cluster --zone us-west1-a --project ${GCP_PROJECT}
+      - run:
+          name: Install dependencies
+          command: apt-get -y install gettext-base
+      - run:
+          name: Patch environment variables on k8s.yaml
+          command: envsubst < k8s.yaml > patched_k8s.yaml
+      - run:
+          name: Test k8s (dry-run)
+          command: kubectl apply -n taeho -f patched_k8s.yaml --dry-run
       - run:
           name: Build docker image with tests
           command: docker build --build-arg test=true -t us.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:$CIRCLE_SHA1 .
