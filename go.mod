@@ -5,6 +5,7 @@ require (
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/golang/mock v1.2.0
 	github.com/golang/protobuf v1.2.0
+	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
 	github.com/lestrrat-go/jwx v0.0.0-20180928232350-0d477e6a1f0e
 	github.com/lestrrat-go/pdebug v0.0.0-20180220043849-39f9a71bcabe // indirect
 	github.com/mattn/go-colorable v0.0.9 // indirect
