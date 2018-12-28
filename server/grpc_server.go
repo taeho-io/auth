@@ -1,6 +1,8 @@
 package server
 
 import (
+	"net"
+
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/auth/pkg/token"
 	"github.com/taeho-io/auth/server/handler"
@@ -83,4 +85,18 @@ func NewGRPCServer(cfg Config) (*grpc.Server, error) {
 	reflection.Register(grpcServer)
 
 	return grpcServer, nil
+}
+
+func ServeGRPC(addr string, cfg Config) error {
+	lis, err := net.Listen("tcp", addr)
+	if err != nil {
+		return err
+	}
+
+	grpcServer, err := NewGRPCServer(cfg)
+	if err != nil {
+		return err
+	}
+
+	return grpcServer.Serve(lis)
 }

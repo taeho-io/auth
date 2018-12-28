@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"net"
 	"net/http"
 
 	"github.com/lestrrat-go/jwx/jwk"
@@ -24,4 +25,18 @@ func NewHttpServer(cfg Config) (*http.Server, error) {
 		Handler: router,
 	}
 	return httpServer, nil
+}
+
+func ServeHTTP(addr string, cfg Config) error {
+	lis, err := net.Listen("tcp", addr)
+	if err != nil {
+		return err
+	}
+
+	httpServer, err := NewHttpServer(cfg)
+	if err != nil {
+		return err
+	}
+
+	return httpServer.Serve(lis)
 }
