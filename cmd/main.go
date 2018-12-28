@@ -9,6 +9,8 @@ import (
 )
 
 func main() {
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+
 	var wg sync.WaitGroup
 	wg.Add(1)
 

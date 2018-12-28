@@ -30,12 +30,6 @@ func ContextUnaryClientInterceptor() grpc.UnaryClientInterceptor {
 
 		if md, ok := metadata.FromIncomingContext(ctx); ok {
 			for key, values := range md {
-				if strings.HasPrefix(strings.ToLower(key), "l5d") {
-					for _, value := range values {
-						pairs = append(pairs, key, value)
-					}
-				}
-
 				if strings.HasPrefix(strings.ToLower(key), "x-") {
 					for _, value := range values {
 						pairs = append(pairs, key, value)

@@ -3,6 +3,10 @@ package server
 import (
 	"net"
 
+	"github.com/grpc-ecosystem/go-grpc-middleware"
+	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
+	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
+	"github.com/sirupsen/logrus"
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/auth/pkg/token"
 	"github.com/taeho-io/auth/server/handler"
@@ -74,9 +78,18 @@ func (s *AuthServer) Parse(ctx context.Context, req *auth.ParseRequest) (*auth.P
 }
 
 func NewGRPCServer(cfg Config) (*grpc.Server, error) {
-	grpcServer := grpc.NewServer()
+	logrusEntry := logrus.NewEntry(logrus.StandardLogger())
+
+	grpcServer := grpc.NewServer(
+		grpc_middleware.WithUnaryServerChain(
+			grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
+			grpc_logrus.UnaryServerInterceptor(logrusEntry),
+		),
+	)
+
 	healthServer := health.NewServer()
 	grpc_health_v1.RegisterHealthServer(grpcServer, healthServer)
+
 	authServer, err := New(cfg)
 	if err != nil {
 		return nil, err
