@@ -1,6 +1,7 @@
 module github.com/taeho-io/auth
 
 require (
+	cloud.google.com/go v0.34.0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/gogo/protobuf v1.2.0 // indirect
@@ -16,10 +17,12 @@ require (
 	github.com/rs/xid v1.2.1
 	github.com/sirupsen/logrus v1.2.0
 	github.com/stretchr/testify v1.2.2
-	github.com/taeho-io/taeho-go v0.0.0-20181230022155-e73a1af77e66
+	github.com/taeho-io/taeho-go v0.0.0-20181230031007-c740d5982360
 	golang.org/x/net v0.0.0-20181220203305-927f97764cc3
+	golang.org/x/oauth2 v0.0.0-20181203162652-d668ce993890 // indirect
 	golang.org/x/sync v0.0.0-20181221193216-37e7f081c4d4 // indirect
-	golang.org/x/sys v0.0.0-20181221143128-b4a75ba826a6 // indirect
+	golang.org/x/sys v0.0.0-20181228144115-9a3f9b0469bb // indirect
+	google.golang.org/appengine v1.4.0 // indirect
 	google.golang.org/genproto v0.0.0-20181221175505-bd9b4fb69e2f // indirect
 	google.golang.org/grpc v1.17.0
 )
