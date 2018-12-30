@@ -8,7 +8,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/taeho-io/auth"
-	"github.com/taeho-io/auth/mocks"
 	"github.com/taeho-io/auth/pkg/token"
 	"golang.org/x/net/context"
 )
@@ -44,7 +43,7 @@ func TestAuthHandler_NewAccessToken_Error(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	tkn := mocks.NewMockToken(ctrl)
+	tkn := token.NewMockToken(ctrl)
 	tkn.
 		EXPECT().
 		NewAccessToken(token.Claims{UserID: testUserId}).
@@ -63,7 +62,7 @@ func TestAuthHandler_NewRefreshToken_Error(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	tkn := mocks.NewMockToken(ctrl)
+	tkn := token.NewMockToken(ctrl)
 	tkn.
 		EXPECT().
 		NewAccessToken(token.Claims{UserID: testUserId}).

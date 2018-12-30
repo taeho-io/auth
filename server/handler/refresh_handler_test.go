@@ -7,7 +7,6 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/taeho-io/auth"
-	"github.com/taeho-io/auth/mocks"
 	"github.com/taeho-io/auth/pkg/token"
 	"golang.org/x/net/context"
 )
@@ -50,7 +49,7 @@ func TestRefreshHandler_NewAccessToken_Error(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	tkn := mocks.NewMockToken(ctrl)
+	tkn := token.NewMockToken(ctrl)
 	tkn.
 		EXPECT().
 		ParseToken(refreshToken).

@@ -28,8 +28,8 @@ lint:
 generate_mocks:
 	@go get github.com/golang/mock/gomock
 	@go install github.com/golang/mock/mockgen
-	mockgen -package mocks -destination ./mocks/mock_token.go github.com/taeho-io/auth/pkg/token Token
-	mockgen -package mocks -destination ./mocks/mock_auth_client.go github.com/taeho-io/auth AuthClient
+	mockgen -package token -destination ./pkg/token/mock_token.go github.com/taeho-io/auth/pkg/token Token
+	mockgen -package auth -destination ./mock_client.go github.com/taeho-io/auth AuthClient
 
 .PHONY: clean_mocks
 clean_mocks:
