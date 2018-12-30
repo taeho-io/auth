@@ -12,36 +12,10 @@ import (
 )
 
 const (
-	BearerScheme = "bearer"
-	XTokenPrefix = "x-token-"
-	XTokenUserID = "x-token-user_id"
+	bearerScheme = "bearer"
+	xTokenPrefix = "x-token-"
+	xTokenUserID = "x-token-user_id"
 )
-
-func ContextUnaryClientInterceptor() grpc.UnaryClientInterceptor {
-	return func(
-		ctx context.Context,
-		method string,
-		req, resp interface{},
-		cc *grpc.ClientConn,
-		invoker grpc.UnaryInvoker,
-		opts ...grpc.CallOption,
-	) error {
-		pairs := make([]string, 0)
-
-		if md, ok := metadata.FromIncomingContext(ctx); ok {
-			for key, values := range md {
-				if strings.HasPrefix(strings.ToLower(key), "x-") {
-					for _, value := range values {
-						pairs = append(pairs, key, value)
-					}
-				}
-			}
-		}
-
-		ctx = metadata.AppendToOutgoingContext(ctx, pairs...)
-		return invoker(ctx, method, req, resp, cc, opts...)
-	}
-}
 
 func TokenUnaryServerInterceptor(
 	ctx context.Context,
@@ -56,7 +30,7 @@ func TokenUnaryServerInterceptor(
 }
 
 func authFunc(ctx context.Context) (context.Context, error) {
-	token, err := grpc_auth.AuthFromMD(ctx, BearerScheme)
+	token, err := grpc_auth.AuthFromMD(ctx, bearerScheme)
 	if err != nil {
 		return ctx, nil
 	}
@@ -72,7 +46,7 @@ func authFunc(ctx context.Context) (context.Context, error) {
 	pairs := make([]string, 0)
 	if md, ok := metadata.FromIncomingContext(ctx); ok {
 		for key, values := range md {
-			if !strings.HasPrefix(strings.ToLower(key), XTokenPrefix) {
+			if !strings.HasPrefix(strings.ToLower(key), xTokenPrefix) {
 				for _, value := range values {
 					pairs = append(pairs, key, value)
 				}
@@ -82,9 +56,9 @@ func authFunc(ctx context.Context) (context.Context, error) {
 	ctx = metadata.NewOutgoingContext(ctx, metadata.Pairs(pairs...))
 
 	// Set newly parsed x-token- metadata
-	ctx = metadata.AppendToOutgoingContext(ctx, XTokenUserID, string(parseResp.UserId))
+	ctx = metadata.AppendToOutgoingContext(ctx, xTokenUserID, string(parseResp.UserId))
 
-	ctx = ctxlogrus.ToContext(ctx, logrus.WithField(XTokenUserID, parseResp.UserId))
+	ctx = ctxlogrus.ToContext(ctx, logrus.WithField(xTokenUserID, parseResp.UserId))
 
 	return ctx, nil
 }

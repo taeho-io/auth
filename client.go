@@ -3,6 +3,7 @@ package auth
 import (
 	"sync"
 
+	"github.com/taeho-io/taeho-go/interceptor"
 	"google.golang.org/grpc"
 )
 
@@ -29,7 +30,7 @@ func GetAuthClient() AuthClient {
 		serviceURL,
 		grpc.WithInsecure(),
 		grpc.WithUnaryInterceptor(
-			ContextUnaryClientInterceptor(),
+			interceptor.ContextUnaryClientInterceptor(),
 		),
 	)
 
