@@ -7,6 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/pkg/errors"
 	"github.com/rs/xid"
+	"github.com/taeho-io/auth"
 )
 
 type Token interface {
@@ -70,7 +71,8 @@ func (t *JWTToken) NewToken(expiresAt int64, claims Claims) (string, error) {
 			Id:        xid.New().String(),
 			ExpiresAt: expiresAt,
 		},
-		UserID: claims.UserID,
+		TokenType: claims.TokenType,
+		UserID:    claims.UserID,
 	}
 
 	token := jwt.NewWithClaims(signingMethod, verifiedClaims)
@@ -78,10 +80,12 @@ func (t *JWTToken) NewToken(expiresAt int64, claims Claims) (string, error) {
 }
 
 func (t *JWTToken) NewAccessToken(claims Claims) (accessToken string, err error) {
+	claims.TokenType = auth.TokenType_ACCESS_TOKEN
 	return t.NewToken(time.Now().Add(t.cfg.AccessTokenExpireDuration()).Unix(), claims)
 }
 
 func (t *JWTToken) NewRefreshToken(claims Claims) (refreshToken string, err error) {
+	claims.TokenType = auth.TokenType_REFRESH_TOKEN
 	return t.NewToken(time.Now().Add(t.cfg.RefreshTokenExpireDuration()).Unix(), claims)
 }
 

@@ -83,7 +83,8 @@ func NewGRPCServer(cfg Config) (*grpc.Server, error) {
 
 	grpcServer := grpc.NewServer(
 		grpc_middleware.WithUnaryServerChain(
-			grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
+			grpc_ctxtags.UnaryServerInterceptor(
+				grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
 			grpc_logrus.UnaryServerInterceptor(logrusEntry),
 			grpc_recovery.UnaryServerInterceptor(),
 		),

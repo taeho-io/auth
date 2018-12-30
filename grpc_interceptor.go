@@ -8,13 +8,19 @@ import (
 	"github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/status"
 )
 
 const (
 	bearerScheme = "bearer"
 	xTokenPrefix = "x-token-"
 	xTokenUserID = "x-token-user_id"
+)
+
+var (
+	ErrInvalidToken = status.Error(codes.Unauthenticated, "invalid token")
 )
 
 func TokenUnaryServerInterceptor() grpc.UnaryServerInterceptor {
@@ -32,6 +38,9 @@ func authFunc(ctx context.Context) (context.Context, error) {
 	})
 	if err != nil {
 		return nil, err
+	}
+	if parseResp.TokenType != TokenType_ACCESS_TOKEN {
+		return nil, ErrInvalidToken
 	}
 
 	// Remove all x-token- prefixed metadata since it could be a security threat

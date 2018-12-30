@@ -39,10 +39,16 @@ message RefreshResponse {
   int64 user_id = 4;
 }
 
+enum TokenType {
+  ACCESS_TOKEN = 0;
+  REFRESH_TOKEN = 1;
+}
+
 message ParseRequest {
   string access_token = 1;
 }
 
 message ParseResponse {
   int64 user_id = 1;
+  TokenType token_type = 2;
 }

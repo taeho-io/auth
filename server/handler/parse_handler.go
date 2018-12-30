@@ -18,7 +18,8 @@ func Parse(tkn token.Token) ParseHandlerFunc {
 		}
 
 		return &auth.ParseResponse{
-			UserId: claims.UserID,
+			UserId:    claims.UserID,
+			TokenType: claims.TokenType,
 		}, nil
 	}
 }
