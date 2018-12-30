@@ -17,16 +17,8 @@ const (
 	xTokenUserID = "x-token-user_id"
 )
 
-func TokenUnaryServerInterceptor(
-	ctx context.Context,
-	req interface{},
-	info *grpc.UnaryServerInfo,
-	handler grpc.UnaryHandler,
-) (
-	interface{},
-	error,
-) {
-	return grpc_auth.UnaryServerInterceptor(authFunc)(ctx, req, info, handler)
+func TokenUnaryServerInterceptor() grpc.UnaryServerInterceptor {
+	return grpc_auth.UnaryServerInterceptor(authFunc)
 }
 
 func authFunc(ctx context.Context) (context.Context, error) {
