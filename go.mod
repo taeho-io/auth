@@ -8,14 +8,18 @@ require (
 	github.com/golang/mock v1.2.0
 	github.com/golang/protobuf v1.2.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
+	github.com/iancoleman/strcase v0.0.0-20180726023541-3605ed457bf7 // indirect
 	github.com/lestrrat-go/jwx v0.0.0-20180928232350-0d477e6a1f0e
 	github.com/lestrrat-go/pdebug v0.0.0-20180220043849-39f9a71bcabe // indirect
+	github.com/lyft/protoc-gen-star v0.4.5 // indirect
+	github.com/lyft/protoc-gen-validate v0.0.12
 	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/pkg/errors v0.8.0
 	github.com/rakyll/gotest v0.0.0-20180125184505-86f0749cd8cc // indirect
 	github.com/rs/xid v1.2.1
 	github.com/sirupsen/logrus v1.2.0
+	github.com/spf13/afero v1.2.0 // indirect
 	github.com/stretchr/testify v1.2.2
 	github.com/taeho-io/taeho-go v0.0.0-20181230031007-c740d5982360
 	golang.org/x/net v0.0.0-20181220203305-927f97764cc3

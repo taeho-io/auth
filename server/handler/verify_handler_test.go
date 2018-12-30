@@ -30,7 +30,7 @@ func TestVerifyHandler_Invalid(t *testing.T) {
 	tokenSvc := token.Mock()
 
 	req := &auth.VerifyRequest{
-		AccessToken: "invalid",
+		AccessToken: "invalid_token_with_dummy_to_make_its_length_bigger_than_30",
 	}
 	res, err := Verify(tokenSvc)(ctx, req)
 	assert.Nil(t, err)

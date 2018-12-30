@@ -2,6 +2,8 @@ syntax = "proto3";
 option go_package = "github.com/taeho-io/auth";
 package auth;
 
+import "github.com/lyft/protoc-gen-validate/validate/validate.proto";
+
 service Auth {
   rpc Auth (AuthRequest) returns (AuthResponse) {}
   rpc Verify (VerifyRequest) returns (VerifyResponse) {}
@@ -10,7 +12,7 @@ service Auth {
 }
 
 message AuthRequest {
-  int64 user_id = 1;
+  int64 user_id = 1         [(validate.rules).int64.gt = 999];
 }
 
 message AuthResponse {
@@ -21,7 +23,7 @@ message AuthResponse {
 }
 
 message VerifyRequest {
-  string access_token = 1;
+  string access_token = 1   [(validate.rules).string.min_len = 30];
 }
 
 message VerifyResponse {
@@ -29,7 +31,7 @@ message VerifyResponse {
 }
 
 message RefreshRequest {
-  string refresh_token = 1;
+  string refresh_token = 1  [(validate.rules).string.min_len = 30];
 }
 
 message RefreshResponse {
@@ -45,7 +47,7 @@ enum TokenType {
 }
 
 message ParseRequest {
-  string access_token = 1;
+  string access_token = 1   [(validate.rules).string.min_len = 30];
 }
 
 message ParseResponse {

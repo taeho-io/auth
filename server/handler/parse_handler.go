@@ -12,6 +12,10 @@ type ParseHandlerFunc func(context.Context, *auth.ParseRequest) (*auth.ParseResp
 
 func Parse(tkn token.Token) ParseHandlerFunc {
 	return func(ctx context.Context, req *auth.ParseRequest) (*auth.ParseResponse, error) {
+		if err := req.Validate(); err != nil {
+			return nil, status.Error(codes.InvalidArgument, err.Error())
+		}
+
 		claims, err := tkn.ParseToken(req.AccessToken)
 		if err != nil {
 			return nil, status.Error(codes.Unauthenticated, "Unauthorized")
