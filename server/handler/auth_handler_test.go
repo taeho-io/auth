@@ -10,6 +10,8 @@ import (
 	"github.com/taeho-io/auth"
 	"github.com/taeho-io/auth/pkg/token"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -32,6 +34,18 @@ func TestAuthHandler(t *testing.T) {
 	assert.NotNil(t, res.AccessToken)
 	assert.NotNil(t, res.RefreshToken)
 	assert.Equal(t, res.ExpiresIn, int64(testAccessTokenExpiringDuration.Seconds()))
+}
+
+func TestAuthHandler_Validate_Error(t *testing.T) {
+	ctx := context.Background()
+	req := &auth.AuthRequest{
+		UserId: 0,
+	}
+	tkn := token.Mock()
+
+	_, err := Auth(testAccessTokenExpiringDuration, tkn)(ctx, req)
+	assert.NotNil(t, err)
+	assert.Error(t, err, status.Error(codes.InvalidArgument, err.Error()))
 }
 
 func TestAuthHandler_NewAccessToken_Error(t *testing.T) {

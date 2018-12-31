@@ -24,7 +24,21 @@ func TestVerifyHandler(t *testing.T) {
 	assert.Equal(t, res.IsValid, true)
 }
 
-func TestVerifyHandler_Invalid(t *testing.T) {
+func TestVerifyHandler_Validate_Error(t *testing.T) {
+	ctx := context.Background()
+
+	tokenSvc := token.Mock()
+
+	req := &auth.VerifyRequest{
+		AccessToken: "invalid_token",
+	}
+	res, err := Verify(tokenSvc)(ctx, req)
+	assert.Nil(t, err)
+	assert.NotNil(t, res)
+	assert.Equal(t, res.IsValid, false)
+}
+
+func TestVerifyHandler_InvalidToken_Error(t *testing.T) {
 	ctx := context.Background()
 
 	tokenSvc := token.Mock()

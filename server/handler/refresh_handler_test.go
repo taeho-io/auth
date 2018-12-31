@@ -25,13 +25,26 @@ func TestRefreshHandler(t *testing.T) {
 	assert.NotNil(t, res)
 }
 
-func TestRefreshHandler_Error_InvalidRefreshToken(t *testing.T) {
+func TestRefreshHandler_Validate_Error(t *testing.T) {
 	ctx := context.Background()
 
 	tkn := token.Mock()
 
 	req := &auth.RefreshRequest{
 		RefreshToken: "invalid_token",
+	}
+	res, err := Refresh(testAccessTokenExpiringDuration, tkn)(ctx, req)
+	assert.NotNil(t, err)
+	assert.Nil(t, res)
+}
+
+func TestRefreshHandler_InvalidToken_Error(t *testing.T) {
+	ctx := context.Background()
+
+	tkn := token.Mock()
+
+	req := &auth.RefreshRequest{
+		RefreshToken: "invalid_token_with_dummy_to_make_its_length_bigger_than_30",
 	}
 	res, err := Refresh(testAccessTokenExpiringDuration, tkn)(ctx, req)
 	assert.NotNil(t, err)
