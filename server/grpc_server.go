@@ -78,6 +78,10 @@ func (s *AuthServer) Parse(ctx context.Context, req *auth.ParseRequest) (*auth.P
 	return handler.Parse(s.Token())(ctx, req)
 }
 
+func (s *AuthServer) JWKS(ctx context.Context, req *auth.JWKSRequest) (*auth.JWKSResponse, error) {
+	return handler.JWKS(s.Config().VerifyingKey())(ctx, req)
+}
+
 func NewGRPCServer(cfg Config) (*grpc.Server, error) {
 	logrusEntry := logrus.NewEntry(logrus.StandardLogger())
 

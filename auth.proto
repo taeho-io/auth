@@ -2,6 +2,7 @@ syntax = "proto3";
 option go_package = "github.com/taeho-io/auth";
 package auth;
 
+import "google/api/annotations.proto";
 import "github.com/lyft/protoc-gen-validate/validate/validate.proto";
 
 service Auth {
@@ -9,6 +10,12 @@ service Auth {
   rpc Verify (VerifyRequest) returns (VerifyResponse) {}
   rpc Refresh (RefreshRequest) returns (RefreshResponse) {}
   rpc Parse (ParseRequest) returns (ParseResponse) {}
+  rpc JWKS (JWKSRequest) returns (JWKSResponse) {
+    option (google.api.http) ={
+            get: "/jwks"
+        };
+  }
+
 }
 
 message AuthRequest {
@@ -53,4 +60,17 @@ message ParseRequest {
 message ParseResponse {
   int64 user_id = 1;
   TokenType token_type = 2;
+}
+
+message JWK {
+  string kty = 1;
+  string e = 2;
+  string n = 3;
+}
+
+message JWKSRequest {
+}
+
+message JWKSResponse {
+    repeated JWK keys = 1;
 }

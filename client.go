@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	serviceURL = "auth:80"
+	ServiceURL = "auth:80"
 )
 
 var (
@@ -27,7 +27,7 @@ func GetAuthClient() AuthClient {
 	// We don't need to error here, as this creates a pool and connections
 	// will happen later
 	conn, _ := grpc.Dial(
-		serviceURL,
+		ServiceURL,
 		grpc.WithInsecure(),
 		grpc.WithUnaryInterceptor(
 			interceptor.ContextUnaryClientInterceptor(),

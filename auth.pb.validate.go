@@ -602,3 +602,218 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ParseResponseValidationError{}
+
+// Validate checks the field values on JWK with the rules defined in the proto
+// definition for this message. If any rules are violated, an error is returned.
+func (m *JWK) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Kty
+
+	// no validation rules for E
+
+	// no validation rules for N
+
+	return nil
+}
+
+// JWKValidationError is the validation error returned by JWK.Validate if the
+// designated constraints aren't met.
+type JWKValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e JWKValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e JWKValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e JWKValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e JWKValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e JWKValidationError) ErrorName() string { return "JWKValidationError" }
+
+// Error satisfies the builtin error interface
+func (e JWKValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sJWK.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = JWKValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = JWKValidationError{}
+
+// Validate checks the field values on JWKSRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *JWKSRequest) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	return nil
+}
+
+// JWKSRequestValidationError is the validation error returned by
+// JWKSRequest.Validate if the designated constraints aren't met.
+type JWKSRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e JWKSRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e JWKSRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e JWKSRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e JWKSRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e JWKSRequestValidationError) ErrorName() string { return "JWKSRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e JWKSRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sJWKSRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = JWKSRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = JWKSRequestValidationError{}
+
+// Validate checks the field values on JWKSResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *JWKSResponse) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	for idx, item := range m.GetKeys() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return JWKSResponseValidationError{
+					field:  fmt.Sprintf("Keys[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// JWKSResponseValidationError is the validation error returned by
+// JWKSResponse.Validate if the designated constraints aren't met.
+type JWKSResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e JWKSResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e JWKSResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e JWKSResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e JWKSResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e JWKSResponseValidationError) ErrorName() string { return "JWKSResponseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e JWKSResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sJWKSResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = JWKSResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = JWKSResponseValidationError{}

@@ -10,8 +10,10 @@ proto:
 	protoc \
 		-I . \
 		-I ${GOPATH}/src \
+		-I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 		auth.proto \
 		--go_out=plugins=grpc:${GOPATH}/src \
+    	--grpc-gateway_out=logtostderr=true:${GOPATH}/src \
 		--validate_out="lang=go:${GOPATH}/src"
 
 build: proto

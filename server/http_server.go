@@ -1,42 +1,35 @@
 package server
 
 import (
-	"encoding/json"
-	"net"
 	"net/http"
 
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/lestrrat-go/jwx/jwk"
+	"github.com/taeho-io/auth"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 type JWKS struct {
 	Keys []jwk.Key `json:"keys"`
 }
 
-func NewHttpServer(cfg Config) (*http.Server, error) {
-	router := http.NewServeMux()
-	router.HandleFunc("/jwks", func(w http.ResponseWriter, req *http.Request) {
-		key, _ := jwk.New(cfg.VerifyingKey())
+func ServeHTTP(addr string, _ Config) error {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
 
-		_ = json.NewEncoder(w).Encode(&JWKS{Keys: []jwk.Key{key}})
-	})
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()}
 
-	httpServer := &http.Server{
-		Addr:    ":81",
-		Handler: router,
-	}
-	return httpServer, nil
-}
-
-func ServeHTTP(addr string, cfg Config) error {
-	lis, err := net.Listen("tcp", addr)
-	if err != nil {
+	if err := auth.RegisterAuthHandlerFromEndpoint(
+		ctx,
+		mux,
+		auth.ServiceURL,
+		opts,
+	); err != nil {
 		return err
 	}
 
-	httpServer, err := NewHttpServer(cfg)
-	if err != nil {
-		return err
-	}
-
-	return httpServer.Serve(lis)
+	return http.ListenAndServe(addr, mux)
 }

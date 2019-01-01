@@ -54,6 +54,26 @@ func (mr *MockAuthClientMockRecorder) Auth(arg0, arg1 interface{}, arg2 ...inter
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Auth", reflect.TypeOf((*MockAuthClient)(nil).Auth), varargs...)
 }
 
+// JWKS mocks base method
+func (m *MockAuthClient) JWKS(arg0 context.Context, arg1 *JWKSRequest, arg2 ...grpc.CallOption) (*JWKSResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{arg0, arg1}
+	for _, a := range arg2 {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "JWKS", varargs...)
+	ret0, _ := ret[0].(*JWKSResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// JWKS indicates an expected call of JWKS
+func (mr *MockAuthClientMockRecorder) JWKS(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{arg0, arg1}, arg2...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "JWKS", reflect.TypeOf((*MockAuthClient)(nil).JWKS), varargs...)
+}
+
 // Parse mocks base method
 func (m *MockAuthClient) Parse(arg0 context.Context, arg1 *ParseRequest, arg2 ...grpc.CallOption) (*ParseResponse, error) {
 	m.ctrl.T.Helper()
