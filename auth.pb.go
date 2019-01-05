@@ -45,7 +45,7 @@ func (x TokenType) String() string {
 	return proto.EnumName(TokenType_name, int32(x))
 }
 func (TokenType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{0}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{0}
 }
 
 type AuthRequest struct {
@@ -59,7 +59,7 @@ func (m *AuthRequest) Reset()         { *m = AuthRequest{} }
 func (m *AuthRequest) String() string { return proto.CompactTextString(m) }
 func (*AuthRequest) ProtoMessage()    {}
 func (*AuthRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{0}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{0}
 }
 func (m *AuthRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AuthRequest.Unmarshal(m, b)
@@ -100,7 +100,7 @@ func (m *AuthResponse) Reset()         { *m = AuthResponse{} }
 func (m *AuthResponse) String() string { return proto.CompactTextString(m) }
 func (*AuthResponse) ProtoMessage()    {}
 func (*AuthResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{1}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{1}
 }
 func (m *AuthResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AuthResponse.Unmarshal(m, b)
@@ -159,7 +159,7 @@ func (m *VerifyRequest) Reset()         { *m = VerifyRequest{} }
 func (m *VerifyRequest) String() string { return proto.CompactTextString(m) }
 func (*VerifyRequest) ProtoMessage()    {}
 func (*VerifyRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{2}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{2}
 }
 func (m *VerifyRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_VerifyRequest.Unmarshal(m, b)
@@ -197,7 +197,7 @@ func (m *VerifyResponse) Reset()         { *m = VerifyResponse{} }
 func (m *VerifyResponse) String() string { return proto.CompactTextString(m) }
 func (*VerifyResponse) ProtoMessage()    {}
 func (*VerifyResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{3}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{3}
 }
 func (m *VerifyResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_VerifyResponse.Unmarshal(m, b)
@@ -235,7 +235,7 @@ func (m *RefreshRequest) Reset()         { *m = RefreshRequest{} }
 func (m *RefreshRequest) String() string { return proto.CompactTextString(m) }
 func (*RefreshRequest) ProtoMessage()    {}
 func (*RefreshRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{4}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{4}
 }
 func (m *RefreshRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RefreshRequest.Unmarshal(m, b)
@@ -276,7 +276,7 @@ func (m *RefreshResponse) Reset()         { *m = RefreshResponse{} }
 func (m *RefreshResponse) String() string { return proto.CompactTextString(m) }
 func (*RefreshResponse) ProtoMessage()    {}
 func (*RefreshResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{5}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{5}
 }
 func (m *RefreshResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RefreshResponse.Unmarshal(m, b)
@@ -335,7 +335,7 @@ func (m *ParseRequest) Reset()         { *m = ParseRequest{} }
 func (m *ParseRequest) String() string { return proto.CompactTextString(m) }
 func (*ParseRequest) ProtoMessage()    {}
 func (*ParseRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{6}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{6}
 }
 func (m *ParseRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ParseRequest.Unmarshal(m, b)
@@ -374,7 +374,7 @@ func (m *ParseResponse) Reset()         { *m = ParseResponse{} }
 func (m *ParseResponse) String() string { return proto.CompactTextString(m) }
 func (*ParseResponse) ProtoMessage()    {}
 func (*ParseResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{7}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{7}
 }
 func (m *ParseResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ParseResponse.Unmarshal(m, b)
@@ -421,7 +421,7 @@ func (m *JWK) Reset()         { *m = JWK{} }
 func (m *JWK) String() string { return proto.CompactTextString(m) }
 func (*JWK) ProtoMessage()    {}
 func (*JWK) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{8}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{8}
 }
 func (m *JWK) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_JWK.Unmarshal(m, b)
@@ -472,7 +472,7 @@ func (m *JWKSRequest) Reset()         { *m = JWKSRequest{} }
 func (m *JWKSRequest) String() string { return proto.CompactTextString(m) }
 func (*JWKSRequest) ProtoMessage()    {}
 func (*JWKSRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{9}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{9}
 }
 func (m *JWKSRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_JWKSRequest.Unmarshal(m, b)
@@ -503,7 +503,7 @@ func (m *JWKSResponse) Reset()         { *m = JWKSResponse{} }
 func (m *JWKSResponse) String() string { return proto.CompactTextString(m) }
 func (*JWKSResponse) ProtoMessage()    {}
 func (*JWKSResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_auth_c493de05ba7cfaf6, []int{10}
+	return fileDescriptor_auth_c56d419d689a57d1, []int{10}
 }
 func (m *JWKSResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_JWKSResponse.Unmarshal(m, b)
@@ -749,9 +749,9 @@ var _Auth_serviceDesc = grpc.ServiceDesc{
 	Metadata: "auth.proto",
 }
 
-func init() { proto.RegisterFile("auth.proto", fileDescriptor_auth_c493de05ba7cfaf6) }
+func init() { proto.RegisterFile("auth.proto", fileDescriptor_auth_c56d419d689a57d1) }
 
-var fileDescriptor_auth_c493de05ba7cfaf6 = []byte{
+var fileDescriptor_auth_c56d419d689a57d1 = []byte{
 	// 597 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x54, 0x41, 0x6e, 0xd3, 0x40,
 	0x14, 0xad, 0x63, 0x37, 0xa9, 0x7f, 0xec, 0x34, 0x9d, 0x82, 0x1a, 0x2c, 0x8a, 0x82, 0xbb, 0xa9,
