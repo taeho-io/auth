@@ -42,6 +42,28 @@ func main() {
 		addr := ":81"
 		log := logrus.WithFields(logrus.Fields{
 			"addr":        addr,
+			"server_type": "grpc",
+		})
+
+		cfg, err := server.NewConfig(server.NewSettings())
+		if err != nil {
+			log.Error(err)
+			return
+		}
+
+		log.Info("Starting Auth gRPC server")
+		if err := server.ServeGRPC(addr, cfg); err != nil {
+			log.Error(err)
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+
+		addr := ":82"
+		log := logrus.WithFields(logrus.Fields{
+			"addr":        addr,
 			"server_type": "http",
 		})
 

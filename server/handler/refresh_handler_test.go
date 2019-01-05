@@ -51,6 +51,28 @@ func TestRefreshHandler_InvalidToken_Error(t *testing.T) {
 	assert.Nil(t, res)
 }
 
+func TestRefreshHandler_InvalidTokenType_Error(t *testing.T) {
+	ctx := context.Background()
+
+	refreshToken, _ := token.Mock().NewRefreshToken(token.Claims{UserID: testUserId})
+	req := &auth.RefreshRequest{
+		RefreshToken: refreshToken,
+	}
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	tkn := token.NewMockToken(ctrl)
+	tkn.
+		EXPECT().
+		ParseToken(refreshToken).
+		Return(token.Claims{UserID: testUserId, TokenType: auth.TokenType_ACCESS_TOKEN}, nil)
+
+	res, err := Refresh(testAccessTokenExpiringDuration, tkn)(ctx, req)
+	assert.Nil(t, res)
+	assert.NotNil(t, err)
+}
+
 func TestRefreshHandler_NewAccessToken_Error(t *testing.T) {
 	ctx := context.Background()
 
@@ -66,12 +88,13 @@ func TestRefreshHandler_NewAccessToken_Error(t *testing.T) {
 	tkn.
 		EXPECT().
 		ParseToken(refreshToken).
-		Return(token.Claims{UserID: testUserId}, nil)
+		Return(token.Claims{UserID: testUserId, TokenType: auth.TokenType_REFRESH_TOKEN}, nil)
 	tkn.
 		EXPECT().
 		NewAccessToken(token.Claims{UserID: testUserId}).
 		Return("", errors.New("failed"))
 
-	_, err := Refresh(testAccessTokenExpiringDuration, tkn)(ctx, req)
+	res, err := Refresh(testAccessTokenExpiringDuration, tkn)(ctx, req)
+	assert.Nil(t, res)
 	assert.NotNil(t, err)
 }

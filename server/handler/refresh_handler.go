@@ -10,22 +10,30 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+var (
+	ErrInvalidToken = status.Error(codes.Unauthenticated, "invalid token")
+)
+
 type RefreshHandlerFunc func(context.Context, *auth.RefreshRequest) (*auth.RefreshResponse, error)
 
 func Refresh(accessTokenExpiringDuration time.Duration, tkn token.Token) RefreshHandlerFunc {
 	return func(ctx context.Context, req *auth.RefreshRequest) (*auth.RefreshResponse, error) {
-		if err := req.Validate(); err != nil {
-			return nil, status.Error(codes.InvalidArgument, err.Error())
-		}
-
 		claims, err := tkn.ParseToken(req.RefreshToken)
 		if err != nil {
-			return nil, err
+			return nil, ErrInvalidToken
+		}
+
+		if claims.TokenType != auth.TokenType_REFRESH_TOKEN {
+			return nil, ErrInvalidToken
+		}
+
+		if err := req.Validate(); err != nil {
+			return nil, ErrInvalidToken
 		}
 
 		accessTokenString, err := tkn.NewAccessToken(token.Claims{UserID: claims.UserID})
 		if err != nil {
-			return nil, err
+			return nil, status.Error(codes.Internal, err.Error())
 		}
 
 		return &auth.RefreshResponse{

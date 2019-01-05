@@ -6,66 +6,70 @@ import "google/api/annotations.proto";
 import "github.com/lyft/protoc-gen-validate/validate/validate.proto";
 
 service Auth {
-  rpc Auth (AuthRequest) returns (AuthResponse) {}
-  rpc Verify (VerifyRequest) returns (VerifyResponse) {}
-  rpc Refresh (RefreshRequest) returns (RefreshResponse) {}
-  rpc Parse (ParseRequest) returns (ParseResponse) {}
-  rpc JWKS (JWKSRequest) returns (JWKSResponse) {
-    option (google.api.http) ={
+    rpc Auth (AuthRequest) returns (AuthResponse) {
+    }
+    rpc Verify (VerifyRequest) returns (VerifyResponse) {
+    }
+    rpc Refresh (RefreshRequest) returns (RefreshResponse) {
+    }
+    rpc Parse (ParseRequest) returns (ParseResponse) {
+    }
+    rpc JWKS (JWKSRequest) returns (JWKSResponse) {
+        option (google.api.http) = {
             get: "/jwks"
         };
-  }
+    }
 
 }
 
 message AuthRequest {
-  int64 user_id = 1         [(validate.rules).int64.gt = 999];
+    int64 user_id = 1 [(validate.rules).int64.gt = 999];
 }
 
 message AuthResponse {
-  string access_token = 1;
-  string refresh_token = 2;
-  int64 expires_in = 3;
-  int64 user_id = 4;
+    string access_token = 1;
+    string refresh_token = 2;
+    int64 expires_in = 3;
+    int64 user_id = 4;
 }
 
 message VerifyRequest {
-  string access_token = 1   [(validate.rules).string.min_len = 30];
+    string access_token = 1 [(validate.rules).string.min_len = 30];
 }
 
 message VerifyResponse {
-  bool is_valid = 1;
+    bool is_valid = 1;
 }
 
 message RefreshRequest {
-  string refresh_token = 1  [(validate.rules).string.min_len = 30];
+    string refresh_token = 1 [(validate.rules).string.min_len = 30];
 }
 
 message RefreshResponse {
-  string access_token = 1;
-  string refresh_token = 2;
-  int64 expires_in = 3;
-  int64 user_id = 4;
+    string access_token = 1;
+    string refresh_token = 2;
+    int64 expires_in = 3;
+    int64 user_id = 4;
 }
 
 enum TokenType {
-  ACCESS_TOKEN = 0;
-  REFRESH_TOKEN = 1;
+    ACCESS_TOKEN = 0;
+    REFRESH_TOKEN = 1;
 }
 
 message ParseRequest {
-  string access_token = 1   [(validate.rules).string.min_len = 30];
+    string access_token = 1 [(validate.rules).string.min_len = 30];
 }
 
 message ParseResponse {
-  int64 user_id = 1;
-  TokenType token_type = 2;
+    int64 user_id = 1;
+    TokenType token_type = 2;
 }
 
 message JWK {
-  string kty = 1;
-  string e = 2;
-  string n = 3;
+    string kty = 1;
+    string e = 2;
+    string n = 3;
 }
 
 message JWKSRequest {

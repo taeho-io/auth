@@ -26,6 +26,7 @@ spec:
           ports:
             - containerPort: 80
             - containerPort: 81
+            - containerPort: 82
           env:
             - name: AUTH_SIGNING_METHOD
               valueFrom:
@@ -49,11 +50,11 @@ spec:
                   key: AUTH_TOKEN_ISSUER
           readinessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:80"]
+              command: ["/bin/grpc_health_probe", "-addr=:80", "&&", "/bin/grpc_health_probe", "-addr=:81"]
             initialDelaySeconds: 3
           livenessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:80"]
+              command: ["/bin/grpc_health_probe", "-addr=:80", "&&", "/bin/grpc_health_probe", "-addr=:81"]
             initialDelaySeconds: 5
 
 ---
@@ -86,9 +87,32 @@ spec:
     - port: 80
       name: grpc
     - port: 81
+      name: grpc
+    - port: 82
       name: http
   selector:
     app: auth
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: auth-route-public-auth
+spec:
+  hosts:
+    - api.taeho.io
+  gateways:
+    - public-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /auth.Auth/Refresh
+      route:
+        - destination:
+            host: note
+            port:
+              number: 81
 
 ---
 
@@ -109,4 +133,4 @@ spec:
         - destination:
             host: auth
             port:
-              number: 81
+              number: 82
