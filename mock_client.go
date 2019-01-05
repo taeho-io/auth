@@ -54,24 +54,24 @@ func (mr *MockAuthClientMockRecorder) Auth(arg0, arg1 interface{}, arg2 ...inter
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Auth", reflect.TypeOf((*MockAuthClient)(nil).Auth), varargs...)
 }
 
-// JWKS mocks base method
-func (m *MockAuthClient) JWKS(arg0 context.Context, arg1 *JWKSRequest, arg2 ...grpc.CallOption) (*JWKSResponse, error) {
+// Jwks mocks base method
+func (m *MockAuthClient) Jwks(arg0 context.Context, arg1 *JwksRequest, arg2 ...grpc.CallOption) (*JwksResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{arg0, arg1}
 	for _, a := range arg2 {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "JWKS", varargs...)
-	ret0, _ := ret[0].(*JWKSResponse)
+	ret := m.ctrl.Call(m, "Jwks", varargs...)
+	ret0, _ := ret[0].(*JwksResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// JWKS indicates an expected call of JWKS
-func (mr *MockAuthClientMockRecorder) JWKS(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
+// Jwks indicates an expected call of Jwks
+func (mr *MockAuthClientMockRecorder) Jwks(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{arg0, arg1}, arg2...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "JWKS", reflect.TypeOf((*MockAuthClient)(nil).JWKS), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Jwks", reflect.TypeOf((*MockAuthClient)(nil).Jwks), varargs...)
 }
 
 // Parse mocks base method

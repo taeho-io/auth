@@ -14,7 +14,7 @@ service Auth {
     }
     rpc Parse (ParseRequest) returns (ParseResponse) {
     }
-    rpc JWKS (JWKSRequest) returns (JWKSResponse) {
+    rpc Jwks (JwksRequest) returns (JwksResponse) {
         option (google.api.http) = {
             get: "/jwks"
         };
@@ -72,9 +72,9 @@ message JWK {
     string n = 3;
 }
 
-message JWKSRequest {
+message JwksRequest {
 }
 
-message JWKSResponse {
+message JwksResponse {
     repeated JWK keys = 1;
 }

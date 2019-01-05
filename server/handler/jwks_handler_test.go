@@ -15,7 +15,7 @@ func TestJWKSHandler(t *testing.T) {
 	verifyingKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(token.MockVerifyPEM))
 	assert.Nil(t, err)
 
-	resp, err := JWKS(verifyingKey)(ctx, &auth.JWKSRequest{})
+	resp, err := Jwks(verifyingKey)(ctx, &auth.JwksRequest{})
 	assert.NotNil(t, resp)
 	assert.Nil(t, err)
 

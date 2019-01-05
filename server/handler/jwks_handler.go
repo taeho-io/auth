@@ -8,10 +8,10 @@ import (
 	"golang.org/x/net/context"
 )
 
-type JWKSHandlerFunc func(context.Context, *auth.JWKSRequest) (*auth.JWKSResponse, error)
+type JwksHandlerFunc func(context.Context, *auth.JwksRequest) (*auth.JwksResponse, error)
 
-func JWKS(verifyingKey *rsa.PublicKey) JWKSHandlerFunc {
-	return func(ctx context.Context, response *auth.JWKSRequest) (*auth.JWKSResponse, error) {
+func Jwks(verifyingKey *rsa.PublicKey) JwksHandlerFunc {
+	return func(ctx context.Context, response *auth.JwksRequest) (*auth.JwksResponse, error) {
 		key, err := jwk.New(verifyingKey)
 		if err != nil {
 			return nil, err
@@ -28,7 +28,7 @@ func JWKS(verifyingKey *rsa.PublicKey) JWKSHandlerFunc {
 			N:   keyMap[`n`].(string),
 		}
 
-		return &auth.JWKSResponse{
+		return &auth.JwksResponse{
 			Keys: []*auth.JWK{jwkMsg},
 		}, nil
 	}

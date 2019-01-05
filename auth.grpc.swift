@@ -49,10 +49,10 @@ fileprivate final class Auth_AuthParseCallBase: ClientCallUnaryBase<Auth_ParseRe
   override class var method: String { return "/auth.Auth/Parse" }
 }
 
-internal protocol Auth_AuthJWKSCall: ClientCallUnary {}
+internal protocol Auth_AuthJwksCall: ClientCallUnary {}
 
-fileprivate final class Auth_AuthJWKSCallBase: ClientCallUnaryBase<Auth_JWKSRequest, Auth_JWKSResponse>, Auth_AuthJWKSCall {
-  override class var method: String { return "/auth.Auth/JWKS" }
+fileprivate final class Auth_AuthJwksCallBase: ClientCallUnaryBase<Auth_JwksRequest, Auth_JwksResponse>, Auth_AuthJwksCall {
+  override class var method: String { return "/auth.Auth/Jwks" }
 }
 
 
@@ -79,9 +79,9 @@ internal protocol Auth_AuthService: ServiceClient {
   func parse(_ request: Auth_ParseRequest, completion: @escaping (Auth_ParseResponse?, CallResult) -> Void) throws -> Auth_AuthParseCall
 
   /// Synchronous. Unary.
-  func jWKS(_ request: Auth_JWKSRequest) throws -> Auth_JWKSResponse
+  func jwks(_ request: Auth_JwksRequest) throws -> Auth_JwksResponse
   /// Asynchronous. Unary.
-  func jWKS(_ request: Auth_JWKSRequest, completion: @escaping (Auth_JWKSResponse?, CallResult) -> Void) throws -> Auth_AuthJWKSCall
+  func jwks(_ request: Auth_JwksRequest, completion: @escaping (Auth_JwksResponse?, CallResult) -> Void) throws -> Auth_AuthJwksCall
 
 }
 
@@ -131,13 +131,13 @@ internal final class Auth_AuthServiceClient: ServiceClientBase, Auth_AuthService
   }
 
   /// Synchronous. Unary.
-  internal func jWKS(_ request: Auth_JWKSRequest) throws -> Auth_JWKSResponse {
-    return try Auth_AuthJWKSCallBase(channel)
+  internal func jwks(_ request: Auth_JwksRequest) throws -> Auth_JwksResponse {
+    return try Auth_AuthJwksCallBase(channel)
       .run(request: request, metadata: metadata)
   }
   /// Asynchronous. Unary.
-  internal func jWKS(_ request: Auth_JWKSRequest, completion: @escaping (Auth_JWKSResponse?, CallResult) -> Void) throws -> Auth_AuthJWKSCall {
-    return try Auth_AuthJWKSCallBase(channel)
+  internal func jwks(_ request: Auth_JwksRequest, completion: @escaping (Auth_JwksResponse?, CallResult) -> Void) throws -> Auth_AuthJwksCall {
+    return try Auth_AuthJwksCallBase(channel)
       .start(request: request, metadata: metadata, completion: completion)
   }
 
