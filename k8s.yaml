@@ -9,8 +9,8 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 0
-  replicas: 3
+      maxUnavailable: 1
+  replicas: 2
   selector:
     matchLabels:
       app: auth
@@ -19,6 +19,16 @@ spec:
       labels:
         app: auth
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - auth
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: auth
           image: us.gcr.io/taeho-io-220708/auth:${CIRCLE_SHA1}
@@ -56,16 +66,6 @@ spec:
             exec:
               command: ["/bin/grpc_health_probe", "-addr=:80", "&&", "/bin/grpc_health_probe", "-addr=:81"]
             initialDelaySeconds: 5
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: "app"
-                    operator: In
-                    values:
-                      - auth
-              topologyKey: "kubernetes.io/hostname"
 
 ---
 
@@ -80,7 +80,7 @@ spec:
     kind: Deployment
     name: auth
     apiVersion: apps/v1beta1
-  minReplicas: 1
+  minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
 
