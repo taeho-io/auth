@@ -56,6 +56,16 @@ spec:
             exec:
               command: ["/bin/grpc_health_probe", "-addr=:80", "&&", "/bin/grpc_health_probe", "-addr=:81"]
             initialDelaySeconds: 5
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - auth
+              topologyKey: "kubernetes.io/hostname"
 
 ---
 
