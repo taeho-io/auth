@@ -5,6 +5,7 @@ cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMT
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/deckarep/golang-set v1.7.1 h1:SCQV0S6gTtp6itiFrTqI+pfmJ4LN85S1YzhDf9rTHJQ=
 github.com/deckarep/golang-set v1.7.1/go.mod h1:93vsz/8Wt4joVM7c2AVqh+YRMiUSc14yDtF28KmMOgQ=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
@@ -58,12 +59,6 @@ github.com/spf13/afero v1.2.0/go.mod h1:9ZxEEn6pIJ8Rxe320qSDBk6AsU0r9pR7Q4OcevTd
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.2.2 h1:bSDNvY7ZPG5RlJ8otE/7V6gMiyenm9RtJ7IUVIAoJ1w=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
-github.com/taeho-io/family v0.0.0-20180910051016-103ba0138991 h1:q/t5zr8jA4D5fs1uIiSE/5ih0qnwugXLP/oEudvXJCg=
-github.com/taeho-io/family v0.0.0-20180910051016-103ba0138991/go.mod h1:TWRyQz3yfHhJdQz/u63HgzLflATgzV/J16yGA4YYigA=
-github.com/taeho-io/idl v0.0.2 h1:y/y3RQwjUeiK314WlgLo9oTeCh47S7B4dctB0kwbypU=
-github.com/taeho-io/idl v0.0.2/go.mod h1:dK9VhwJeDSYD6brWtdYV89LKKbCF/1YC/03Z2ovWNkg=
-github.com/taeho-io/taeho-go v0.0.0-20181230031007-c740d5982360 h1:zmHAUKxzup1w7QcZeN/BRCD17jRp08uZTaOcp9/NpVg=
-github.com/taeho-io/taeho-go v0.0.0-20181230031007-c740d5982360/go.mod h1:iz+62V7JZ9byYGZg+W/otSUNolWBoKysd8hcELpbUt4=
 github.com/taeho-io/taeho-go v0.0.0-20181230233140-814f79be3042 h1:Nnchhv5bGkSs3xJOZncxcE1S+F1d46pUVcgj6KsJ8Dc=
 github.com/taeho-io/taeho-go v0.0.0-20181230233140-814f79be3042/go.mod h1:r6XkEYoI6SXWxDgF0Sp9tbmVj6M82lmvKzR92r7czSU=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793 h1:u+LnwYTOOW7Ukr/fppxEb1Nwz0AtPflrblfvUudpo+I=

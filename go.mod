@@ -18,8 +18,6 @@ require (
 	github.com/sirupsen/logrus v1.2.0
 	github.com/spf13/afero v1.2.0 // indirect
 	github.com/stretchr/testify v1.2.2
-	github.com/taeho-io/family v0.0.0-20180910051016-103ba0138991 // indirect
-	github.com/taeho-io/idl v0.0.2
 	github.com/taeho-io/taeho-go v0.0.0-20181230233140-814f79be3042
 	golang.org/x/net v0.0.0-20181220203305-927f97764cc3
 	golang.org/x/oauth2 v0.0.0-20181203162652-d668ce993890 // indirect
