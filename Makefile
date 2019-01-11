@@ -16,7 +16,8 @@ proto:
     	--grpc-gateway_out=logtostderr=true:${GOPATH}/src \
 		--validate_out="lang=go:${GOPATH}/src" \
 		--swift_out=. \
-		--swiftgrpc_out=Client=true,Server=false:.
+		--swiftgrpc_out=Client=true,Server=false:. \
+		--swiftgrpcrx_out=.
 
 build: proto
 	go build -o build/auth cmd/main.go
