@@ -24,6 +24,7 @@ import Foundation
 import Dispatch
 import SwiftGRPC
 import SwiftProtobuf
+import RxSwift
 
 internal protocol Auth_AuthAuthCall: ClientCallUnary {}
 
@@ -139,6 +140,84 @@ internal final class Auth_AuthServiceClient: ServiceClientBase, Auth_AuthService
   internal func jwks(_ request: Auth_JwksRequest, completion: @escaping (Auth_JwksResponse?, CallResult) -> Void) throws -> Auth_AuthJwksCall {
     return try Auth_AuthJwksCallBase(channel)
       .start(request: request, metadata: metadata, completion: completion)
+  }
+
+}
+
+internal extension Auth_AuthServiceClient {
+  /// RxSwift. Unary.
+  internal func auth(_ request: Auth_AuthRequest, metadata customMetadata: Metadata?) -> Observable<Auth_AuthResponse> {
+    return Observable.create { observer in
+      _ = try? Auth_AuthAuthCallBase(self.channel)
+        .start(request: request, metadata: customMetadata ?? self.metadata, completion: { resp, result in
+          guard let resp: Auth_AuthResponse = resp else {
+            observer.onError(RPCError.callError(result))
+            return
+          }
+          observer.onNext(resp)
+        })
+      return Disposables.create()
+    }
+  }
+
+  /// RxSwift. Unary.
+  internal func verify(_ request: Auth_VerifyRequest, metadata customMetadata: Metadata?) -> Observable<Auth_VerifyResponse> {
+    return Observable.create { observer in
+      _ = try? Auth_AuthVerifyCallBase(self.channel)
+        .start(request: request, metadata: customMetadata ?? self.metadata, completion: { resp, result in
+          guard let resp: Auth_VerifyResponse = resp else {
+            observer.onError(RPCError.callError(result))
+            return
+          }
+          observer.onNext(resp)
+        })
+      return Disposables.create()
+    }
+  }
+
+  /// RxSwift. Unary.
+  internal func refresh(_ request: Auth_RefreshRequest, metadata customMetadata: Metadata?) -> Observable<Auth_RefreshResponse> {
+    return Observable.create { observer in
+      _ = try? Auth_AuthRefreshCallBase(self.channel)
+        .start(request: request, metadata: customMetadata ?? self.metadata, completion: { resp, result in
+          guard let resp: Auth_RefreshResponse = resp else {
+            observer.onError(RPCError.callError(result))
+            return
+          }
+          observer.onNext(resp)
+        })
+      return Disposables.create()
+    }
+  }
+
+  /// RxSwift. Unary.
+  internal func parse(_ request: Auth_ParseRequest, metadata customMetadata: Metadata?) -> Observable<Auth_ParseResponse> {
+    return Observable.create { observer in
+      _ = try? Auth_AuthParseCallBase(self.channel)
+        .start(request: request, metadata: customMetadata ?? self.metadata, completion: { resp, result in
+          guard let resp: Auth_ParseResponse = resp else {
+            observer.onError(RPCError.callError(result))
+            return
+          }
+          observer.onNext(resp)
+        })
+      return Disposables.create()
+    }
+  }
+
+  /// RxSwift. Unary.
+  internal func jwks(_ request: Auth_JwksRequest, metadata customMetadata: Metadata?) -> Observable<Auth_JwksResponse> {
+    return Observable.create { observer in
+      _ = try? Auth_AuthJwksCallBase(self.channel)
+        .start(request: request, metadata: customMetadata ?? self.metadata, completion: { resp, result in
+          guard let resp: Auth_JwksResponse = resp else {
+            observer.onError(RPCError.callError(result))
+            return
+          }
+          observer.onNext(resp)
+        })
+      return Disposables.create()
+    }
   }
 
 }
