@@ -22,9 +22,9 @@ const (
 )
 
 var (
-	ErrInvalidToken                  = status.Error(codes.Unauthenticated, "invalid token")
-	ErrNoMetadataFromIncomingContext = errors.New("no metadata from incoming context")
-	ErrNoUserIDFromMetadata          = errors.New("no " + xTokenUserID + " from metadata")
+	ErrInvalidToken   = status.Error(codes.Unauthenticated, "invalid token")
+	ErrNoXTokenUserID = errors.New("no x-token-user_id form incoming context metadata")
+	ErrWrongUserID    = errors.New("wrong userID")
 
 	authCli = GetAuthClient()
 )
@@ -85,12 +85,12 @@ func authFunc(authCli AuthClient) func(context.Context) (context.Context, error)
 func UserIDFromIncomingContext(ctx context.Context) (int64, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		return 0, ErrNoMetadataFromIncomingContext
+		return 0, ErrNoXTokenUserID
 	}
 
 	userIDs := md.Get(xTokenUserID)
 	if len(userIDs) == 0 {
-		return 0, ErrNoUserIDFromMetadata
+		return 0, ErrNoXTokenUserID
 	}
 
 	userID, err := strconv.ParseInt(userIDs[0], 10, 64)
@@ -99,4 +99,22 @@ func UserIDFromIncomingContext(ctx context.Context) (int64, error) {
 	}
 
 	return userID, nil
+}
+
+func VerifyUser(ctx context.Context, userID int64, okWhenNoXTokenUserID bool) error {
+	userIDFromContext, err := UserIDFromIncomingContext(ctx)
+	switch err {
+	case nil:
+		if userID != userIDFromContext {
+			return ErrWrongUserID
+		}
+		return nil
+	case ErrNoXTokenUserID:
+		if !okWhenNoXTokenUserID {
+			return ErrNoXTokenUserID
+		}
+		return nil
+	default:
+		return status.Error(codes.Internal, err.Error())
+	}
 }

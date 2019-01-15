@@ -87,3 +87,53 @@ func TestUserIDFromIncomingContext__through_authFunc(t *testing.T) {
 	assert.Equal(t, userID, userIDFromContext)
 	assert.Nil(t, err)
 }
+
+func TestVerifyUser(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	tokenString := "test_jwt_token_string"
+
+	ctx := context.Background()
+	ctx = metadata.NewIncomingContext(ctx, metadata.Pairs("Authorization", "Bearer "+tokenString))
+
+	userID := id.New().Must()
+	authCli := NewMockAuthClient(ctrl)
+	authCli.
+		EXPECT().
+		Parse(ctx, &ParseRequest{
+			AccessToken: tokenString,
+		}).
+		Return(&ParseResponse{
+			TokenType: TokenType_ACCESS_TOKEN,
+			UserId:    userID,
+		}, nil)
+
+	ctx, err := authFunc(authCli)(ctx)
+	assert.NotNil(t, ctx)
+	assert.Nil(t, err)
+
+	err = VerifyUser(ctx, userID, false)
+	assert.Nil(t, err)
+
+	err = VerifyUser(ctx, userID, true)
+	assert.Nil(t, err)
+
+	err = VerifyUser(ctx, userID+1, false)
+	assert.Error(t, err)
+
+	err = VerifyUser(ctx, userID+1, true)
+	assert.Error(t, err)
+
+	err = VerifyUser(context.Background(), userID, false)
+	assert.Error(t, err)
+
+	err = VerifyUser(context.Background(), userID, true)
+	assert.Nil(t, err)
+
+	err = VerifyUser(context.Background(), userID+1, false)
+	assert.Error(t, err)
+
+	err = VerifyUser(context.Background(), userID+1, true)
+	assert.Nil(t, err)
+}
