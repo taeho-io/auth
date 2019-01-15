@@ -2,9 +2,11 @@ package auth
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
+	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -20,7 +22,9 @@ const (
 )
 
 var (
-	ErrInvalidToken = status.Error(codes.Unauthenticated, "invalid token")
+	ErrInvalidToken                  = status.Error(codes.Unauthenticated, "invalid token")
+	ErrNoMetadataFromIncomingContext = errors.New("no metadata from incoming context")
+	ErrNoUserIDFromMetadata          = errors.New("no " + xTokenUserID + " from metadata")
 
 	authCli = GetAuthClient()
 )
@@ -76,4 +80,23 @@ func authFunc(authCli AuthClient) func(context.Context) (context.Context, error)
 		return ctx, nil
 	}
 
+}
+
+func UserIDFromIncomingContext(ctx context.Context) (int64, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return 0, ErrNoMetadataFromIncomingContext
+	}
+
+	userIDs := md.Get(xTokenUserID)
+	if len(userIDs) == 0 {
+		return 0, ErrNoUserIDFromMetadata
+	}
+
+	userID, err := strconv.ParseInt(userIDs[0], 10, 64)
+	if err != nil {
+		return 0, err
+	}
+
+	return userID, nil
 }
