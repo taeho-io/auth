@@ -12,7 +12,7 @@ require (
 	github.com/lestrrat-go/jwx v0.0.0-20180928232350-0d477e6a1f0e
 	github.com/lestrrat-go/pdebug v0.0.0-20180220043849-39f9a71bcabe // indirect
 	github.com/lyft/protoc-gen-star v0.4.5 // indirect
-	github.com/lyft/protoc-gen-validate v0.0.12
+	github.com/lyft/protoc-gen-validate v0.0.13
 	github.com/pkg/errors v0.8.0
 	github.com/rs/xid v1.2.1
 	github.com/sirupsen/logrus v1.2.0

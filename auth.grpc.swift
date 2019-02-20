@@ -59,29 +59,29 @@ fileprivate final class Auth_AuthJwksCallBase: ClientCallUnaryBase<Auth_JwksRequ
 /// Instantiate Auth_AuthServiceClient, then call methods of this protocol to make API calls.
 internal protocol Auth_AuthService: ServiceClient {
   /// Synchronous. Unary.
-  func auth(_ request: Auth_AuthRequest, metadata customMetadata: Metadata?) throws -> Auth_AuthResponse
+  func auth(_ request: Auth_AuthRequest, metadata customMetadata: Metadata) throws -> Auth_AuthResponse
   /// Asynchronous. Unary.
-  func auth(_ request: Auth_AuthRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_AuthResponse?, CallResult) -> Void) throws -> Auth_AuthAuthCall
+  func auth(_ request: Auth_AuthRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_AuthResponse?, CallResult) -> Void) throws -> Auth_AuthAuthCall
 
   /// Synchronous. Unary.
-  func verify(_ request: Auth_VerifyRequest, metadata customMetadata: Metadata?) throws -> Auth_VerifyResponse
+  func verify(_ request: Auth_VerifyRequest, metadata customMetadata: Metadata) throws -> Auth_VerifyResponse
   /// Asynchronous. Unary.
-  func verify(_ request: Auth_VerifyRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_VerifyResponse?, CallResult) -> Void) throws -> Auth_AuthVerifyCall
+  func verify(_ request: Auth_VerifyRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_VerifyResponse?, CallResult) -> Void) throws -> Auth_AuthVerifyCall
 
   /// Synchronous. Unary.
-  func refresh(_ request: Auth_RefreshRequest, metadata customMetadata: Metadata?) throws -> Auth_RefreshResponse
+  func refresh(_ request: Auth_RefreshRequest, metadata customMetadata: Metadata) throws -> Auth_RefreshResponse
   /// Asynchronous. Unary.
-  func refresh(_ request: Auth_RefreshRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_RefreshResponse?, CallResult) -> Void) throws -> Auth_AuthRefreshCall
+  func refresh(_ request: Auth_RefreshRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_RefreshResponse?, CallResult) -> Void) throws -> Auth_AuthRefreshCall
 
   /// Synchronous. Unary.
-  func parse(_ request: Auth_ParseRequest, metadata customMetadata: Metadata?) throws -> Auth_ParseResponse
+  func parse(_ request: Auth_ParseRequest, metadata customMetadata: Metadata) throws -> Auth_ParseResponse
   /// Asynchronous. Unary.
-  func parse(_ request: Auth_ParseRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_ParseResponse?, CallResult) -> Void) throws -> Auth_AuthParseCall
+  func parse(_ request: Auth_ParseRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_ParseResponse?, CallResult) -> Void) throws -> Auth_AuthParseCall
 
   /// Synchronous. Unary.
-  func jwks(_ request: Auth_JwksRequest, metadata customMetadata: Metadata?) throws -> Auth_JwksResponse
+  func jwks(_ request: Auth_JwksRequest, metadata customMetadata: Metadata) throws -> Auth_JwksResponse
   /// Asynchronous. Unary.
-  func jwks(_ request: Auth_JwksRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_JwksResponse?, CallResult) -> Void) throws -> Auth_AuthJwksCall
+  func jwks(_ request: Auth_JwksRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_JwksResponse?, CallResult) -> Void) throws -> Auth_AuthJwksCall
 
 }
 
@@ -135,58 +135,58 @@ internal extension Auth_AuthService {
 
 internal final class Auth_AuthServiceClient: ServiceClientBase, Auth_AuthService {
   /// Synchronous. Unary.
-  internal func auth(_ request: Auth_AuthRequest, metadata customMetadata: Metadata?) throws -> Auth_AuthResponse {
+  internal func auth(_ request: Auth_AuthRequest, metadata customMetadata: Metadata) throws -> Auth_AuthResponse {
     return try Auth_AuthAuthCallBase(channel)
-      .run(request: request, metadata: customMetadata ?? self.metadata)
+      .run(request: request, metadata: customMetadata)
   }
   /// Asynchronous. Unary.
-  internal func auth(_ request: Auth_AuthRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_AuthResponse?, CallResult) -> Void) throws -> Auth_AuthAuthCall {
+  internal func auth(_ request: Auth_AuthRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_AuthResponse?, CallResult) -> Void) throws -> Auth_AuthAuthCall {
     return try Auth_AuthAuthCallBase(channel)
-      .start(request: request, metadata: customMetadata ?? self.metadata, completion: completion)
+      .start(request: request, metadata: customMetadata, completion: completion)
   }
 
   /// Synchronous. Unary.
-  internal func verify(_ request: Auth_VerifyRequest, metadata customMetadata: Metadata?) throws -> Auth_VerifyResponse {
+  internal func verify(_ request: Auth_VerifyRequest, metadata customMetadata: Metadata) throws -> Auth_VerifyResponse {
     return try Auth_AuthVerifyCallBase(channel)
-      .run(request: request, metadata: customMetadata ?? self.metadata)
+      .run(request: request, metadata: customMetadata)
   }
   /// Asynchronous. Unary.
-  internal func verify(_ request: Auth_VerifyRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_VerifyResponse?, CallResult) -> Void) throws -> Auth_AuthVerifyCall {
+  internal func verify(_ request: Auth_VerifyRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_VerifyResponse?, CallResult) -> Void) throws -> Auth_AuthVerifyCall {
     return try Auth_AuthVerifyCallBase(channel)
-      .start(request: request, metadata: customMetadata ?? self.metadata, completion: completion)
+      .start(request: request, metadata: customMetadata, completion: completion)
   }
 
   /// Synchronous. Unary.
-  internal func refresh(_ request: Auth_RefreshRequest, metadata customMetadata: Metadata?) throws -> Auth_RefreshResponse {
+  internal func refresh(_ request: Auth_RefreshRequest, metadata customMetadata: Metadata) throws -> Auth_RefreshResponse {
     return try Auth_AuthRefreshCallBase(channel)
-      .run(request: request, metadata: customMetadata ?? self.metadata)
+      .run(request: request, metadata: customMetadata)
   }
   /// Asynchronous. Unary.
-  internal func refresh(_ request: Auth_RefreshRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_RefreshResponse?, CallResult) -> Void) throws -> Auth_AuthRefreshCall {
+  internal func refresh(_ request: Auth_RefreshRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_RefreshResponse?, CallResult) -> Void) throws -> Auth_AuthRefreshCall {
     return try Auth_AuthRefreshCallBase(channel)
-      .start(request: request, metadata: customMetadata ?? self.metadata, completion: completion)
+      .start(request: request, metadata: customMetadata, completion: completion)
   }
 
   /// Synchronous. Unary.
-  internal func parse(_ request: Auth_ParseRequest, metadata customMetadata: Metadata?) throws -> Auth_ParseResponse {
+  internal func parse(_ request: Auth_ParseRequest, metadata customMetadata: Metadata) throws -> Auth_ParseResponse {
     return try Auth_AuthParseCallBase(channel)
-      .run(request: request, metadata: customMetadata ?? self.metadata)
+      .run(request: request, metadata: customMetadata)
   }
   /// Asynchronous. Unary.
-  internal func parse(_ request: Auth_ParseRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_ParseResponse?, CallResult) -> Void) throws -> Auth_AuthParseCall {
+  internal func parse(_ request: Auth_ParseRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_ParseResponse?, CallResult) -> Void) throws -> Auth_AuthParseCall {
     return try Auth_AuthParseCallBase(channel)
-      .start(request: request, metadata: customMetadata ?? self.metadata, completion: completion)
+      .start(request: request, metadata: customMetadata, completion: completion)
   }
 
   /// Synchronous. Unary.
-  internal func jwks(_ request: Auth_JwksRequest, metadata customMetadata: Metadata?) throws -> Auth_JwksResponse {
+  internal func jwks(_ request: Auth_JwksRequest, metadata customMetadata: Metadata) throws -> Auth_JwksResponse {
     return try Auth_AuthJwksCallBase(channel)
-      .run(request: request, metadata: customMetadata ?? self.metadata)
+      .run(request: request, metadata: customMetadata)
   }
   /// Asynchronous. Unary.
-  internal func jwks(_ request: Auth_JwksRequest, metadata customMetadata: Metadata?, completion: @escaping (Auth_JwksResponse?, CallResult) -> Void) throws -> Auth_AuthJwksCall {
+  internal func jwks(_ request: Auth_JwksRequest, metadata customMetadata: Metadata, completion: @escaping (Auth_JwksResponse?, CallResult) -> Void) throws -> Auth_AuthJwksCall {
     return try Auth_AuthJwksCallBase(channel)
-      .start(request: request, metadata: customMetadata ?? self.metadata, completion: completion)
+      .start(request: request, metadata: customMetadata, completion: completion)
   }
 
 }
