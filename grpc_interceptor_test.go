@@ -7,7 +7,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
 	"github.com/stretchr/testify/assert"
-	"github.com/taeho-io/taeho-go/id"
+	"github.com/taeho-io/go-taeho/id"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/metadata"
 )

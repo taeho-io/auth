@@ -1,4 +1,4 @@
-FROM golang:1.11.4 as golang
+FROM golang:1.12.0 as golang
 WORKDIR /auth
 COPY . .
 RUN go mod download
@@ -10,7 +10,7 @@ RUN if [ "$test" = "true" ] ; then curl -sfL https://install.goreleaser.com/gith
 RUN if [ "$test" = "true" ] ; then make lint ; fi
 RUN if [ "$test" = "true" ] ; then make test ; fi
 
-FROM alpine:3.8
+FROM alpine:3.9
 RUN apk add --no-cache ca-certificates
 RUN GRPC_HEALTH_PROBE_VERSION=v0.2.0 && \
     wget -qO/bin/grpc_health_probe https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/${GRPC_HEALTH_PROBE_VERSION}/grpc_health_probe-linux-amd64 && \
