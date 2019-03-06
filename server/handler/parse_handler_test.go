@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/taeho-io/auth"
 	"github.com/taeho-io/auth/pkg/token"
+	"github.com/taeho-io/idl/gen/go/auth"
 	"golang.org/x/net/context"
 )
 

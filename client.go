@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/taeho-io/go-taeho/interceptor"
+	"github.com/taeho-io/idl/gen/go/auth"
 	"google.golang.org/grpc"
 )
 
@@ -13,10 +14,10 @@ const (
 
 var (
 	cm     = &sync.Mutex{}
-	Client AuthClient
+	Client auth.AuthClient
 )
 
-func GetAuthClient() AuthClient {
+func GetAuthClient() auth.AuthClient {
 	cm.Lock()
 	defer cm.Unlock()
 
@@ -34,7 +35,7 @@ func GetAuthClient() AuthClient {
 		),
 	)
 
-	cli := NewAuthClient(conn)
+	cli := auth.NewAuthClient(conn)
 	Client = cli
 	return cli
 }

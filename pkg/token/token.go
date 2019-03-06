@@ -7,7 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/pkg/errors"
 	"github.com/rs/xid"
-	"github.com/taeho-io/auth"
+	"github.com/taeho-io/idl/gen/go/auth"
 )
 
 type Token interface {

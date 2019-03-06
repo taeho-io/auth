@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/taeho-io/auth"
 	"github.com/taeho-io/auth/pkg/token"
+	"github.com/taeho-io/idl/gen/go/auth"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

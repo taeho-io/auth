@@ -5,7 +5,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
-	"github.com/taeho-io/auth"
+	"github.com/taeho-io/idl/gen/go/auth"
 	"golang.org/x/net/context"
 )
 

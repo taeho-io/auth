@@ -2,30 +2,16 @@
 
 GOPATH:=$(shell go env GOPATH)
 
-.PHONY: proto test
-
-proto:
-	@go get github.com/golang/protobuf/protoc-gen-go
-	@go get github.com/lyft/protoc-gen-validate
-	protoc \
-		-I . \
-		-I ${GOPATH}/src \
-		-I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-		auth.proto \
-		--go_out=plugins=grpc:${GOPATH}/src \
-    	--grpc-gateway_out=logtostderr=true:${GOPATH}/src \
-		--validate_out="lang=go:${GOPATH}/src" \
-		--swift_out=. \
-		--swiftgrpc_out=Client=true,Server=false:. \
-		--swiftgrpcrx_out=.
-
-build: proto
+.PHONY: build
+build:
 	go build -o build/auth cmd/main.go
     
+.PHONY: test
 test:
 	@go get github.com/rakyll/gotest
 	gotest -p 1 -race -cover -v ./...
 
+.PHONY: lint
 lint:
 	golangci-lint run ./...
 
@@ -34,7 +20,7 @@ generate_mocks:
 	@go get github.com/golang/mock/gomock
 	@go install github.com/golang/mock/mockgen
 	mockgen -package token -destination ./pkg/token/mock_token.go github.com/taeho-io/auth/pkg/token Token
-	mockgen -package auth -destination ./mock_client.go github.com/taeho-io/auth AuthClient
+	mockgen -package auth -destination ./mock_client.go github.com/taeho-io/idl/generated/go/auth AuthClient
 
 .PHONY: clean_mocks
 clean_mocks:

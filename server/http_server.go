@@ -5,7 +5,8 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/lestrrat-go/jwx/jwk"
-	"github.com/taeho-io/auth"
+	authClient "github.com/taeho-io/auth"
+	"github.com/taeho-io/idl/gen/go/auth"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -25,7 +26,7 @@ func ServeHTTP(addr string, _ Config) error {
 	if err := auth.RegisterAuthHandlerFromEndpoint(
 		ctx,
 		mux,
-		auth.ServiceURL,
+		authClient.ServiceURL,
 		opts,
 	); err != nil {
 		return err

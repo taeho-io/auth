@@ -7,6 +7,7 @@ import (
 
 	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"github.com/pkg/errors"
+	"github.com/taeho-io/idl/gen/go/auth"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -33,20 +34,20 @@ func TokenUnaryServerInterceptor() grpc.UnaryServerInterceptor {
 	return grpc_auth.UnaryServerInterceptor(authFunc(authCli))
 }
 
-func authFunc(authCli AuthClient) func(context.Context) (context.Context, error) {
+func authFunc(authCli auth.AuthClient) func(context.Context) (context.Context, error) {
 	return func(ctx context.Context) (context.Context, error) {
 		tokenString, err := grpc_auth.AuthFromMD(ctx, bearerScheme)
 		if err != nil {
 			return ctx, nil
 		}
 
-		parseResp, err := authCli.Parse(ctx, &ParseRequest{
+		parseResp, err := authCli.Parse(ctx, &auth.ParseRequest{
 			AccessToken: tokenString,
 		})
 		if err != nil {
 			return nil, err
 		}
-		if parseResp.TokenType != TokenType_ACCESS_TOKEN {
+		if parseResp.TokenType != auth.TokenType_ACCESS_TOKEN {
 			return nil, ErrInvalidToken
 		}
 

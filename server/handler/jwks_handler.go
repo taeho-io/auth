@@ -4,7 +4,7 @@ import (
 	"crypto/rsa"
 
 	"github.com/lestrrat-go/jwx/jwk"
-	"github.com/taeho-io/auth"
+	"github.com/taeho-io/idl/gen/go/auth"
 	"golang.org/x/net/context"
 )
 

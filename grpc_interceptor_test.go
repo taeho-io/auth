@@ -8,6 +8,7 @@ import (
 	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
 	"github.com/stretchr/testify/assert"
 	"github.com/taeho-io/go-taeho/id"
+	"github.com/taeho-io/idl/gen/go/auth"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/metadata"
 )
@@ -25,11 +26,11 @@ func TestAuthFunc(t *testing.T) {
 	authCli := NewMockAuthClient(ctrl)
 	authCli.
 		EXPECT().
-		Parse(ctx, &ParseRequest{
+		Parse(ctx, &auth.ParseRequest{
 			AccessToken: tokenString,
 		}).
-		Return(&ParseResponse{
-			TokenType: TokenType_ACCESS_TOKEN,
+		Return(&auth.ParseResponse{
+			TokenType: auth.TokenType_ACCESS_TOKEN,
 			UserId:    userID,
 		}, nil)
 
@@ -38,9 +39,9 @@ func TestAuthFunc(t *testing.T) {
 	assert.NotNil(t, ctx)
 	assert.Nil(t, err)
 
-	assert.Equal(t, metautils.ExtractIncoming(ctx).Get(xTokenType), fmt.Sprintf("%d", TokenType_ACCESS_TOKEN))
+	assert.Equal(t, metautils.ExtractIncoming(ctx).Get(xTokenType), fmt.Sprintf("%d", auth.TokenType_ACCESS_TOKEN))
 	assert.Equal(t, metautils.ExtractIncoming(ctx).Get(xTokenUserID), fmt.Sprintf("%v", userID))
-	assert.Equal(t, metautils.ExtractOutgoing(ctx).Get(xTokenType), fmt.Sprintf("%d", TokenType_ACCESS_TOKEN))
+	assert.Equal(t, metautils.ExtractOutgoing(ctx).Get(xTokenType), fmt.Sprintf("%d", auth.TokenType_ACCESS_TOKEN))
 	assert.Equal(t, metautils.ExtractOutgoing(ctx).Get(xTokenUserID), fmt.Sprintf("%v", userID))
 }
 
@@ -71,11 +72,11 @@ func TestUserIDFromIncomingContext__through_authFunc(t *testing.T) {
 	authCli := NewMockAuthClient(ctrl)
 	authCli.
 		EXPECT().
-		Parse(ctx, &ParseRequest{
+		Parse(ctx, &auth.ParseRequest{
 			AccessToken: tokenString,
 		}).
-		Return(&ParseResponse{
-			TokenType: TokenType_ACCESS_TOKEN,
+		Return(&auth.ParseResponse{
+			TokenType: auth.TokenType_ACCESS_TOKEN,
 			UserId:    userID,
 		}, nil)
 
@@ -101,11 +102,11 @@ func TestVerifyUser(t *testing.T) {
 	authCli := NewMockAuthClient(ctrl)
 	authCli.
 		EXPECT().
-		Parse(ctx, &ParseRequest{
+		Parse(ctx, &auth.ParseRequest{
 			AccessToken: tokenString,
 		}).
-		Return(&ParseResponse{
-			TokenType: TokenType_ACCESS_TOKEN,
+		Return(&auth.ParseResponse{
+			TokenType: auth.TokenType_ACCESS_TOKEN,
 			UserId:    userID,
 		}, nil)
 
