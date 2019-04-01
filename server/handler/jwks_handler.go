@@ -22,14 +22,14 @@ func Jwks(verifyingKey *rsa.PublicKey) JwksHandlerFunc {
 			return nil, err
 		}
 
-		jwkMsg := &auth.JWK{
+		jwkMsg := &auth.Jwk{
 			Kty: key.KeyType().String(),
 			E:   keyMap[`e`].(string),
 			N:   keyMap[`n`].(string),
 		}
 
 		return &auth.JwksResponse{
-			Keys: []*auth.JWK{jwkMsg},
+			Keys: []*auth.Jwk{jwkMsg},
 		}, nil
 	}
 }
