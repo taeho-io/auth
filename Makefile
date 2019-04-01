@@ -20,7 +20,7 @@ generate_mocks:
 	@go get github.com/golang/mock/gomock
 	@go install github.com/golang/mock/mockgen
 	mockgen -package token -destination ./pkg/token/mock_token.go github.com/taeho-io/auth/pkg/token Token
-	mockgen -package auth -destination ./mock_client.go github.com/taeho-io/idl/generated/go/auth AuthClient
+	mockgen -package auth -destination ./mock_client.go github.com/taeho-io/idl/gen/go/auth AuthClient
 
 .PHONY: clean_mocks
 clean_mocks:
