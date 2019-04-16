@@ -10,7 +10,7 @@ import (
 	"golang.org/x/net/context"
 )
 
-func TestJWKSHandler(t *testing.T) {
+func TestJwksHandler(t *testing.T) {
 	ctx := context.Background()
 	verifyingKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(token.MockVerifyPEM))
 	assert.Nil(t, err)
